@@ -208,13 +208,13 @@ def restart():
     subprocess.run(['shutdown', '/r', '/t', '0'])
 
 # Кастомизация консоли
-subprocess.call("title All Tweaker & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
+subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
 
 # Создание главного окна
 root = ttk.Window(themename='vapor')
 # root = ttk.Window(themename='cyborg')
 # root.iconbitmap(r'icon.ico')
-root.title('All Tweaker')
+root.title('All Tweaker Beta')
 root.attributes('-fullscreen', True)
 
 # Создание вкладок
@@ -295,7 +295,7 @@ with open('All Tweaker.py', 'w', encoding='utf-8') as f:
 if 'Приватность' in tabs:
     tab_frame = ttk.Frame(tab_control)
     label = ttk.Label(tab_frame, text="""
-    All Tweaker — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
+    All Tweaker Beta — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
     В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
     All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
     label.pack()
