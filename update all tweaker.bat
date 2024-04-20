@@ -22,15 +22,15 @@ if %errorlevel% equ 0 (
 )
 
 REM Загружаем All Tweaker с GitHub
-Utils\busybox wget https://scode18.github.io/All-Tweaker/Tweaks.7z
-Utils\busybox wget https://scode18.github.io/All-Tweaker/icon.ico
-Utils\busybox wget https://scode18.github.io/All-Tweaker/All Tweaker.py
+Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tweaks.7z
+Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/icon.ico
+Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
 
 REM Распаковываем архив с помощью 7z
-Utils\7za x tweaks.7z
+Utils\7za x tweaks.7z tweaks
 
 REM Удаляем загруженный архив
 del tweaks.7z
 
 REM Запускаем скрипт All Tweaker.py
-C:\Windows\py.exe "All Tweaker.py"
+C:\Windows\py.exe "All.Tweaker.py"
