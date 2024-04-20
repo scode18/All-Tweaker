@@ -1,5 +1,5 @@
 # All-Tweaker
-![GitHub Release](https://img.shields.io/github/v/release/scode18/All-Tweaker?style=for-the-badge)
+![GitHub Tag](https://img.shields.io/github/v/tag/scode18/All-Tweaker?style=for-the-badge&label=release)
 ![PyPI - Version](https://img.shields.io/pypi/v/ttkbootstrap?style=for-the-badge&label=ttkbootstrap)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/scode18/All-Tweaker/total?style=for-the-badge)
 <br>
