@@ -21,31 +21,16 @@ if %errorlevel% equ 0 (
     echo Python успешно установлен.
 )
 
-REM Загружаем архив с твиками, установщик и уконку с GitHub
+REM Загружаем All Tweaker с GitHub
 Utils\busybox wget https://scode18.github.io/All-Tweaker/Tweaks.7z
-Utils\busybox wget https://scode18.github.io/All-Tweaker/make.py
 Utils\busybox wget https://scode18.github.io/All-Tweaker/icon.ico
+Utils\busybox wget https://scode18.github.io/All-Tweaker/All Tweaker.py
 
 REM Распаковываем архив с помощью 7z
-Utils\7za x Tweaks.7z
+Utils\7za x tweaks.7z
 
 REM Удаляем загруженный архив
-del Tweaks.7z
+del tweaks.7z
 
-REM Запускаем скрипт main.py
-C:\Windows\py.exe "make.py"
-
-REM Создаем ярлык на рабочем столе с иконкой icon.ico
-echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
-echo sLinkFile = oWS.ExpandEnvironmentStrings("%USERPROFILE%\Desktop\All Tweaker.lnk") >> CreateShortcut.vbs
-echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs
-echo oLink.TargetPath = "%CD%\All Tweaker.py" >> CreateShortcut.vbs
-echo oLink.IconLocation = "%CD%\icon.ico" >> CreateShortcut.vbs
-echo oLink.Save >> CreateShortcut.vbs
-cscript CreateShortcut.vbs
-
-REM Удаляем временный файл CreateShortcut.vbs
-del CreateShortcut.vbs
-
-rem echo Скрипт выполнен успешно.
-rem pause
+REM Запускаем скрипт All Tweaker.py
+C:\Windows\py.exe "All Tweaker.py"
