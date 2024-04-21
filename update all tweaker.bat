@@ -24,6 +24,7 @@ if %errorlevel% equ 0 (
 REM Загружаем All Tweaker с GitHub
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tweaks.7z
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/icon.ico
+Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/App.py
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
 
 REM Распаковываем архив с помощью 7z
