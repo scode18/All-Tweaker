@@ -6,19 +6,36 @@
 All Tweaker — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации. В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие. All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.
 ## Установка
 ```batch
-start All.Tweaker.Beta.exe
+REM Распаковываем архив с помощью 7zip
+All.Tweaker.Beta.exe
+REM Переходим в директорию с твикером
 cd "All Tweaker Beta"
-start "update all tweaker.bat"
+REM Установка All Tweaker
+"update all tweaker.bat"
+REM Запуск All Tweaker
 python App.py
+
+REM Создаем ярлык на рабочем столе с иконкой icon.ico
+echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
+echo sLinkFile = oWS.ExpandEnvironmentStrings("%USERPROFILE%\Desktop\All Tweaker.lnk") >> CreateShortcut.vbs
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs
+echo oLink.TargetPath = "%CD%\App.py" >> CreateShortcut.vbs
+echo oLink.IconLocation = "%CD%\icon.ico" >> CreateShortcut.vbs
+echo oLink.WorkingDirectory = "%CD%" >> CreateShortcut.vbs
+echo oLink.Save >> CreateShortcut.vbs
+cscript CreateShortcut.vbs
+REM Удаляем временный файл CreateShortcut.vbs
+del CreateShortcut.vbs
 ```
 ## Редактирование твиков без редактирования каталогов и подкаталогов
 ```batch
-rem Загружаем Python
+REM Скачай репозиторий или каталоги Utils и Source
+REM Загружаем Python
 Utils\busybox wget https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe
-rem Установка Python без графического интерфейса
+REM Установка Python без графического интерфейса
 python-3.12.3-amd64.exe /quiet InstallAllUsers=1 PrependPath=1
 
-REM Распаковываем архив с помощью 7z
+REM Распаковываем архив с помощью 7zip
 Utils\7za x Source\tweaks.7z Source\tweaks
 REM Добавляем или удаляем твики не трогая каталоги и подкаталоги
 REM Твики содержат расширения ".bat", ".cmd", ".ps1", ".exe", ".pow", а ".reg" файлы удаляются
