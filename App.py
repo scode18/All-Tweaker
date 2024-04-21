@@ -51,7 +51,7 @@ def restart():
     subprocess.run(['shutdown', '/r', '/t', '0'])
 
 # Кастомизация консоли
-subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
+subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker by scode18", shell=True)
 
 # Создание главного окна
 root = ttk.Window(themename='vapor')
@@ -91,7 +91,7 @@ tabs = {
 if 'Приватность' in tabs:
     tab_frame = ttk.Frame(tab_control)
     label = ttk.Label(tab_frame, text="""
-    All Tweaker Beta — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
+    All Tweaker Beta by scode18 (Никита Соломон)— это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
     В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
     All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
     label.pack()
@@ -153,16 +153,9 @@ for tab_name, checkbox_names in tabs.items():
         checkbox.grid(row=i//num_columns+1, column=i%num_columns, sticky='w')
         checkboxes[checkbox_name] = checkbox_var
 
-# Создание кнопок
-execute_button = ttk.Button(root, text='Выполнить', command=execute)
-restart_button = ttk.Button(root, text='Перезагрузка', command=restart)
-
 # Размещение элементов
 tab_control.pack(expand=1, fill='both')
-# search_entry.pack(side='left', padx=10, pady=10)
-search_entry.place(x=0, y=0)
-# restart_button.pack(side='right', padx=10, pady=10)
-# execute_button.pack(side='right', padx=10, pady=10)
+search_entry.place(relx=0.0, rely=0.0, anchor='nw')
 
 # Create the "Выполнить" button
 execute_button = ttk.Button(root, text='Выполнить', command=execute)
