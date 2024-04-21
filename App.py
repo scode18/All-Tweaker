@@ -95,7 +95,7 @@ if 'Приватность' in tabs:
     В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
     All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
     label.pack()
-    tab_control.add(tab_frame, text='search_entry.placemh')
+    tab_control.add(tab_frame, text='search_entry.placemhhh')
 
 search_entry_var = StringVar()
 search_entry = ttk.Entry(root, textvariable=search_entry_var)
