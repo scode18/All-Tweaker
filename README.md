@@ -12,7 +12,7 @@ All.Tweaker.Beta.exe
 REM Переходим в директорию с твикером
 cd "All Tweaker Beta"
 REM Установка All Tweaker
-"update all tweaker.bat"
+"setup.bat"
 python All.Tweaker.py
 REM Запуск All Tweaker
 python App.py
