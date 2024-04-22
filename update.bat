@@ -34,14 +34,14 @@ Utils\7za x tweaks.7z tweaks
 REM Удаляем загруженный архив
 del tweaks.7z
 
-REM Запускаем скрипт All Tweaker.py
-C:\Windows\py.exe "All.Tweaker.py"
+REM Запускаем скрипт post-install.py
+C:\Windows\py.exe "post-install.py"
 
 REM Создаем ярлык на рабочем столе с иконкой icon.ico
 echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
 echo sLinkFile = oWS.ExpandEnvironmentStrings("%USERPROFILE%\Desktop\All Tweaker.lnk") >> CreateShortcut.vbs
 echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs
-echo oLink.TargetPath = "%CD%\App.py" >> CreateShortcut.vbs
+echo oLink.TargetPath = "%CD%\All.Tweaker.py" >> CreateShortcut.vbs
 echo oLink.IconLocation = "%CD%\icon.ico" >> CreateShortcut.vbs
 echo oLink.WorkingDirectory = "%CD%" >> CreateShortcut.vbs
 echo oLink.Save >> CreateShortcut.vbs

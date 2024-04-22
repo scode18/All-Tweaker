@@ -377,4 +377,4 @@ root.mainloop()
 ''')
 
 os.system('pip install ttkbootstrap')
-os.system('python "All Tweaker.py"')
+os.system('python "All.Tweaker.py"')
