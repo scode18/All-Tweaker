@@ -34,8 +34,8 @@ Utils\7za x tweaks.7z tweaks
 REM Удаляем загруженный архив
 del tweaks.7z
 
-REM Запускаем скрипт post-install.py
-C:\Windows\py.exe "post-install.py"
+REM Запускаем скрипт post-install.bat
+post-install.bat
 
 REM Создаем ярлык на рабочем столе с иконкой icon.ico
 echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
