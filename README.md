@@ -18,14 +18,16 @@ setup.bat
 ```
 ## Редактирование твиков и вкладок
 ```batch
-REM Скачай репозиторий или каталоги Utils, Source и файл make.py
+REM Скачай репозиторий или каталоги Utils и Source
 REM Загружаем Python
 Utils\busybox wget https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe
 REM Установка Python без графического интерфейса
 python-3.12.3-amd64.exe /quiet InstallAllUsers=1 PrependPath=1
 
 REM Распаковываем архив с помощью 7zip
-Utils\7za x Source\tweaks.7z Source\tweaks
+cd Utils
+7za x ..\Source\Tweaks.7z
+copy ..\Source\make.py .
 REM Добавляем или удаляем твики, каталоги и подкаталоги
 REM Твики содержат расширения ".bat", ".cmd", ".ps1", ".exe", ".pow", а ".reg" файлы удаляются
 
