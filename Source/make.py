@@ -6,34 +6,22 @@ from contextlib import contextmanager
 
 os.system('@echo off && title Install All Tweaker && mode con: cols=100 lines=25 && color a')
 
-dirs = [
-    "Приватность",
-    "Приватность\\Отключить телеметрию Браузеров",
-    "Приватность\\Adamx",
-    "Приватность\\BoosterX и ios1ph",
-    "Приватность\\IT-спец. Денис Курец",
-    "Приватность\\Optimizer",
-    "Приватность\\Pulse",
-    "Приватность\\Win 10 Tweaker",
-    "Приватность\\windowser",
-    "Оптимизация от ios1ph\\Основная оптимизация",
-    "Оптимизация от ios1ph\\Углубленная оптимизация",
-    "Оптимизация от ios1ph\\Углубленная оптимизация\\Режимы электропитания",
-    "Оптимизация от ios1ph\\Хардкор",
-    "Оптимизация от ios1ph\\Хардкор\\Адские режимы электропитания",
-    "Оптимизация от ios1ph\\Хардкор\\Уменьшить количество svhost и другие твики",
-    "Другая оптимизация",
-    "Другая оптимизация\\Меньшая задержка ввода и более плавный игровой процесс",
-    "Очистка",
-    "Обновления Windows",
-    "Обновления Windows\\Терапия после обновлений винды",
-    "Удалить приложения Microsoft",
-    "Исправление проблем",
-    "Исправление проблем\\Отмена",
-    "Исправление проблем\\Отмена\\Data Queue Size клава",
-    "Исправление проблем\\Отмена\\Data Queue Size мышь",
-    "Электропитание"
-]
+directory_path = '.'
+
+print('Все имена каталогов и подкаталогов')
+
+# Initialize an empty list to store the directory names
+directory_names = []
+
+# Use a for loop with os.walk() to iterate over all directories and subdirectories, excluding hidden directories
+for root, dirs, files in os.walk(directory_path):
+    # Append the name of the current directory to the list
+    if not os.path.basename(root) == '.':
+        directory_names.append(os.path.relpath(root))
+
+# Print the list of directory names
+directory_names = dirs
+print(dirs)
 
 for dir in dirs:
     for root, dirs, files in os.walk(dir):
@@ -47,18 +35,22 @@ for dir in dirs:
                         if b"pause" not in line and b"exit" not in line:
                             f.write(line)
 
-# Список с именами каталогов
-directories = [
-    "База",
-    "Приватность",
-    "Оптимизация от ios1ph",
-    "Другая оптимизация",
-    "Очистка",
-    "Обновления Windows",
-    "Удалить приложения Microsoft",
-    "Исправление проблем",
-    "Электропитание"
-]
+print('\nВсе имена каталогов (без подкаталогов)')
+
+# Initialize an empty list to store the top-level directory names
+directories = []
+
+# Use a for loop with os.walk() to iterate over all directories and subdirectories, excluding hidden directories
+for root, dirs, files in os.walk(directory_path):
+    if root == directory_path:
+        # Append the name of the current directory to the list
+        directories.extend(dirs)
+    else:
+        # Break the loop to exclude subdirectories
+        break
+
+# Print the list of top-level directory names
+print(directories)
 
 # Папка, в которую будут копироваться файлы
 destination_folder = 'tweaks'
@@ -88,78 +80,6 @@ def redirect_stdout(new_target):
         yield new_target
     finally:
         sys.stdout = save_target # restore the original target
-
-def get_list(directory, directories=None):
-    list_string = ""
-    if directories is None:
-        directories = [directory]
-    files = []
-    for d in directories:
-        prefix = ""
-        if d == "Приватность\\Отключить телеметрию Браузеров":
-            prefix = "Отключить телеметрию Браузеров//"
-
-        if d == "Приватность\\Adamx":
-            prefix = "Adamx//"
-
-        if d == "Приватность\\BoosterX и ios1ph":
-            prefix = "BoosterX и ios1ph//"
-
-        if d == "Приватность\\IT-спец. Денис Курец":
-            prefix = "IT-спец. Денис Курец//"
-
-        if d == "Приватность\\Optimizer":
-            prefix = "Optimizer//"
-
-        if d == "Приватность\\Pulse":
-            prefix = "Pulse//"
-
-        if d == "Приватность\\Win 10 Tweaker":
-            prefix = "Win 10 Tweaker//"
-
-        if d == "Приватность\\windowser":
-            prefix = "windowser//"
-
-
-
-        if d == "Оптимизация от ios1ph\\Основная оптимизация":
-            prefix = "Основная оптимизация//"
-
-        if d == "Оптимизация от ios1ph\\Основная оптимизация\\Режимы электропитания":
-            prefix = "Основная оптимизация//Режимы электропитания"
-
-        if d == "Оптимизация от ios1ph\\Углубленная оптимизация":
-            prefix = "Углубленная оптимизация//"
-
-        if d == "Оптимизация от ios1ph\\Углубленная оптимизация\\Режимы электропитания":
-            prefix = "Углубленная оптимизация//Режимы электропитания//"
-
-        if d == "Оптимизация от ios1ph\\Хардкор":
-            prefix = "Хардкор//"
-
-        if d == "Оптимизация от ios1ph\\Хардкор\\Адские режимы электропитания":
-            prefix = "Хардкор//Адские режимы электропитания//"
-
-
-
-        if d == "Оптимизация от ios1ph\\Хардкор\\Уменьшить количество svhost и другие твики":
-            prefix = "Хардкор//Уменьшить количество svhost и другие твики//"
-        if d == "Другая оптимизация\\Меньшая задержка ввода и более плавный игровой процесс":
-            prefix = "Меньшая задержка ввода и более плавный игровой процесс//"
-
-
-
-        if d == "Исправление проблем\\Отмена":
-            prefix = "Отмена//"
-        if d == "Исправление проблем\\Отмена\\Data Queue Size клава":
-            prefix = "Data Queue Size клава//"
-        if d == "Исправление проблем\\Отмена\\Data Queue Size мышь":
-            prefix = "Data Queue Size мышь//"
-
-        if d == "Обновления Windows\\Терапия после обновлений винды":
-            prefix = "Терапия после обновлений винды//"
-        files += [prefix + os.path.splitext(f)[0] for f in os.listdir(d) if f.endswith((".bat", ".cmd", ".ps1", ".exe", ".pow")) and "PowerRun" not in f]
-    print(files, end=',')
 
 text = '''import tkinter as tk
 from tkinter import ttk
@@ -237,31 +157,55 @@ tabs = {
     ],
 '''
 
+# Initialize an empty list to store the top-level directory names
+top_directory_names = []
+
+# Use a for loop with os.walk() to iterate over all directories and subdirectories, excluding hidden directories
+for root, dirs, files in os.walk(directory_path):
+    if root == directory_path:
+        # Append the name of the current directory to the list
+        top_directory_names.extend(dirs)
+    else:
+        # Break the loop to exclude subdirectories
+        break
+
+def get_all_paths(directory, extensions=None, exclude_files=None, exclude_dirs=None):
+    if extensions is None:
+        extensions = []
+    if exclude_files is None:
+        exclude_files = []
+    if exclude_dirs is None:
+        exclude_dirs = []
+    paths = []
+    for root, _, files in os.walk(directory):
+        if root not in exclude_dirs:
+            for file in files:
+                path = os.path.join(root, file)
+                if any(path.endswith(extension) for extension in extensions) and file not in exclude_files:
+                    paths.append(path)
+    return paths
+
+extensions = ['.bat', '.cmd', '.ps1', '.exe', '.pow']
+exclude_files = ['PowerRun.exe', 'pssuspend.exe']
+exclude_dirs = ['База', 'tweaks']
+
 def print_list():
     with redirect_stdout(io.StringIO()) as print_to_string:
-        print("'Приватность':", end=' ')
-        get_list("Приватность", directories=["Приватность", "Приватность\\Отключить телеметрию Браузеров", "Приватность\\Adamx", "Приватность\\BoosterX и ios1ph", "Приватность\\IT-спец. Денис Курец", "Приватность\\Optimizer", "Приватность\\Pulse", "Приватность\\Win 10 Tweaker", "Приватность\\windowser"])
-
-        print("\n\n'Оптимизация':", end=' ')
-        get_list("Оптимизация", directories=["Оптимизация от ios1ph\\Основная оптимизация", "Оптимизация от ios1ph\\Углубленная оптимизация", "Оптимизация от ios1ph\\Углубленная оптимизация\\Режимы электропитания", "Оптимизация от ios1ph\\Хардкор", "Оптимизация от ios1ph\\Хардкор\\Адские режимы электропитания", "Оптимизация от ios1ph\\Хардкор\\Уменьшить количество svhost и другие твики"])
-
-        print("\n\n'Другая оптимизация':", end=' ')
-        get_list("Другая оптимизация", directories=["Другая оптимизация", "Другая оптимизация\\Меньшая задержка ввода и более плавный игровой процесс"])
-
-        print("\n\n'Очистка':", end=' ')
-        get_list("Очистка")
-
-        print("\n\n'Обновления Windows':", end=' ')
-        get_list("Обновления Windows", directories=["Обновления Windows", "Обновления Windows\\Терапия после обновлений винды"])
-
-        print("\n\n'Удалить приложения Microsoft':", end=' ')
-        get_list("Удалить приложения Microsoft")
-
-        print("\n\n'Исправление проблем':", end=' ')
-        get_list("Исправление проблем", directories=["Исправление проблем", "Исправление проблем\\Отмена", "Исправление проблем\\Отмена\\Data Queue Size клава", "Исправление проблем\\Отмена\\Data Queue Size мышь"])
-
-        print("\n\n'Электропитание':", end=' ')
-        get_list("Электропитание")
+        for directory_name in top_directory_names:
+            if directory_name not in exclude_dirs:
+                directory_path = os.path.join(directory_name)
+                if directory_name == 'Удалить приложения Microsoft':
+                    exclude_subdirectories = ['Work']
+                else:
+                    exclude_subdirectories = []
+                all_paths = get_all_paths(directory_path, extensions, exclude_files, exclude_dirs)
+                all_paths = [os.path.relpath(path, directory_path) for path in all_paths]
+                all_paths = [os.path.splitext(path)[0] for path in all_paths]
+                all_paths = [path for path in all_paths if not os.path.basename(path) == '.' and not any(subdirectory in path for subdirectory in exclude_subdirectories)]
+                # print(f'\nВсе файлы в каталоге {directory_name}')
+                print('\n')
+                print(f"'{directory_name}':", end=' ')
+                print(all_paths, end=',')
 
     result = print_to_string.getvalue() # получаем результат
     return result
@@ -280,13 +224,13 @@ def delete_reg_files(directory):
 
 delete_reg_files('tweaks')
 
-with open('All Tweaker.py', 'w', encoding='utf-8') as f:
+with open('All.Tweaker.py', 'w', encoding='utf-8') as f:
     f.write(text + result + '''}
 # New code to add label "All Tweaker..." to the tab "search_entry.placemh"
 if 'Приватность' in tabs:
     tab_frame = ttk.Frame(tab_control)
     label = ttk.Label(tab_frame, text="""
-    All Tweaker Beta — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
+    All Tweaker Beta by scode18 (Никита Соломон) — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
     В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
     All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
     label.pack()
