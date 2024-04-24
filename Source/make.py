@@ -6,7 +6,31 @@ from contextlib import contextmanager
 
 os.system('@echo off && title Install All Tweaker && mode con: cols=100 lines=25 && color a')
 
+# Проверяем, существует ли каталог tweaks
+if os.path.exists('tweaks'):
+    print('Удаляем каталог tweaks')
+    shutil.rmtree('tweaks')
+else:
+    print('Каталог tweaks не существует')
+
 directory_path = '.'
+
+# print('Все файлы в каталогах и подкаталогах')
+
+# def get_all_paths(directory, paths=None):
+#     if paths is None:
+#         paths = []
+#     for root, _, files in os.walk(directory):
+#         for file in files:
+#             path = os.path.join(root, file)
+#             paths.append(path)
+#     return paths
+
+# # Example usage:
+# all_paths = get_all_paths(directory_path)
+# all_paths = [os.path.relpath(path) for path in all_paths]
+# all_paths = [path for path in all_paths if not os.path.basename(path) == '.']
+# print(all_paths)
 
 print('Все имена каталогов и подкаталогов')
 
@@ -20,8 +44,8 @@ for root, dirs, files in os.walk(directory_path):
         directory_names.append(os.path.relpath(root))
 
 # Print the list of directory names
+print(directory_names)
 directory_names = dirs
-print(dirs)
 
 for dir in dirs:
     for root, dirs, files in os.walk(dir):
@@ -204,7 +228,7 @@ def print_list():
                 all_paths = [path for path in all_paths if not os.path.basename(path) == '.' and not any(subdirectory in path for subdirectory in exclude_subdirectories)]
                 # print(f'\nВсе файлы в каталоге {directory_name}')
                 print('\n')
-                print(f"'{directory_name}':", end=' ')
+                print(f"'{directory_name.split('.')[-1]}':", end=' ')
                 print(all_paths, end=',')
 
     result = print_to_string.getvalue() # получаем результат
@@ -320,5 +344,4 @@ execute_button.place(relx=1.0, rely=0.0, anchor='ne')
 root.mainloop()
 ''')
 
-os.system('pip install ttkbootstrap')
 os.system('python "All.Tweaker.py"')
