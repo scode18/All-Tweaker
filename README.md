@@ -1,6 +1,7 @@
 # All-Tweaker
 ![GitHub Tag](https://img.shields.io/github/v/tag/scode18/All-Tweaker?style=for-the-badge&label=release)
 ![PyPI - Version](https://img.shields.io/pypi/v/ttkbootstrap?style=for-the-badge&label=ttkbootstrap)
+![GitHub repo size](https://img.shields.io/github/repo-size/scode18/All-Tweaker?style=for-the-badge)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/scode18/All-Tweaker/total?style=for-the-badge)
 <br>
 All Tweaker — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации. В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие. All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.
