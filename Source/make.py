@@ -210,7 +210,7 @@ def get_all_paths(directory, extensions=None, exclude_files=None, exclude_dirs=N
     return paths
 
 extensions = ['.bat', '.cmd', '.ps1', '.exe', '.pow']
-exclude_files = ['PowerRun.exe', 'pssuspend.exe']
+exclude_files = ['PowerRun.exe', 'pssuspend.exe', 'TI.exe']
 exclude_dirs = ['База', 'tweaks']
 
 def print_list():
