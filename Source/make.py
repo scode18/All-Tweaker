@@ -84,6 +84,21 @@ if not os.path.exists(destination_folder):
     os.makedirs(destination_folder)
 
 # Перебираем каждый каталог и копируем файлы и подкаталоги в папку "tweaks"
+# for directory in directories:
+#     source_folder = os.path.join(os.getcwd(), directory)  # Путь к текущему каталогу
+#     for root, dirs, files in os.walk(source_folder):
+#         if directory == 'Кастомизация':
+#             continue
+
+#         for d in dirs:
+#             src_dir = os.path.join(root, d)
+#             dst_dir = os.path.join(destination_folder, os.path.relpath(src_dir, source_folder))
+#             if not os.path.exists(dst_dir):
+#                 os.makedirs(dst_dir)
+#         for f in files:
+#             src_file = os.path.join(root, f)
+#             dst_file = os.path.join(destination_folder, os.path.relpath(src_file, source_folder))
+#             shutil.copy(src_file, dst_file)
 for directory in directories:
     source_folder = os.path.join(os.getcwd(), directory)  # Путь к текущему каталогу
     for root, dirs, files in os.walk(source_folder):
@@ -96,6 +111,7 @@ for directory in directories:
             src_file = os.path.join(root, f)
             dst_file = os.path.join(destination_folder, os.path.relpath(src_file, source_folder))
             shutil.copy(src_file, dst_file)
+
 
 @contextmanager
 def redirect_stdout(new_target):
@@ -152,6 +168,7 @@ def execute():
     for checkbox_name, checkbox_var in checkboxes.items():
         if checkbox_var.get():
             subprocess.call(f'tweaks\\\\"{checkbox_name}"', shell=True)
+            subprocess.call(f'Utils\\\\PowerRun.exe tweaks\\\\"{checkbox_name}.reg"', shell=True)
             subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\\\{checkbox_name}.ps1'])
 
 def restart():
@@ -211,7 +228,7 @@ def get_all_paths(directory, extensions=None, exclude_files=None, exclude_dirs=N
 
 extensions = ['.bat', '.cmd', '.ps1', '.exe', '.pow']
 exclude_files = ['PowerRun.exe', 'pssuspend.exe', 'TI.exe']
-exclude_dirs = ['База', 'tweaks']
+exclude_dirs = ['База', 'tweaks', 'Source', 'Utils']
 
 def print_list():
     with redirect_stdout(io.StringIO()) as print_to_string:
@@ -238,10 +255,20 @@ result = print_list()
 print(result)
 
 # Рекурсивная функция для удаления reg файлов
+# def delete_reg_files(directory):
+#     for root, dirs, files in os.walk(directory):
+#         for file in files:
+#             if file.endswith('.reg'):
+#                 file_path = os.path.join(root, file)
+#                 os.remove(file_path)
+#                 print(f"Удален файл: {file_path}")
 def delete_reg_files(directory):
+    exclude_dir = "Контекстное меню"
     for root, dirs, files in os.walk(directory):
+        if root == directory:
+            dirs[:] = [d for d in dirs if d != exclude_dir]
         for file in files:
-            if file.endswith('.reg'):
+            if file.endswith('.reg') or file == 'PowerRun.exe':
                 file_path = os.path.join(root, file)
                 os.remove(file_path)
                 print(f"Удален файл: {file_path}")
@@ -299,11 +326,11 @@ for tab_name, checkbox_names in tabs.items():
         num_columns = 3
     elif tab_name == 'Оптимизация':
         num_columns = 3
-    elif tab_name == 'Другая оптимизация':
-        num_columns = 2
-    elif tab_name == 'Углубленная оптимизация и Хардкор':
-        num_columns = 3
     elif tab_name == 'Исправление проблем':
+        num_columns = 2
+    elif tab_name == 'Кастомизация':
+        num_columns = 3
+    elif tab_name == 'Очистка':
         num_columns = 2
     elif tab_name == 'Удалить приложения Microsoft':
         num_columns = 2
@@ -344,4 +371,4 @@ execute_button.place(relx=1.0, rely=0.0, anchor='ne')
 root.mainloop()
 ''')
 
-os.system('python "All.Tweaker.py"')
+os.system('python All.Tweaker.py')
