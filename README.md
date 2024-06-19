@@ -13,6 +13,7 @@ All Tweaker — это утилита для тонкой настройки о�
 ![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
 
 ## Установка
+[All.Tweaker.Beta.exe](https://github.com/scode18/All-Tweaker/releases/download/Beta_v0.3/All.Tweaker.Beta.exe)
 ```batch
 REM Скачиваем последний релиз
 REM Распаковываем архив с помощью 7zip
