@@ -8,12 +8,12 @@ All Tweaker — это утилита для тонкой настройки о�
 ## Отзыв от Антона
 > Это лучше чем Booster X
 ## Поддержать автора
-[Boosty](https://boosty.to/scode18/donate)
+[Boosty](https://shre.su/F2FH)
 ## Скоро будет полностью переделанный твикер
 ![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
 
 ## Установка
-[All.Tweaker.Beta.exe](https://github.com/scode18/All-Tweaker/releases/download/Beta_v0.3/All.Tweaker.Beta.exe)
+[All.Tweaker.Beta.exe](https://shre.su/0KO3)
 ```batch
 REM Скачиваем последний релиз
 REM Распаковываем архив с помощью 7zip
