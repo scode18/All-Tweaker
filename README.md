@@ -5,15 +5,22 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/scode18/All-Tweaker/total?style=for-the-badge)
 <br>
 [All Tweaker](https://shre.su/0KO3) — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации. В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие. All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.
+
 ## [Скачать All Tweaker](https://shre.su/0KO3)
 [Скачать All Tweaker](https://shre.su/0KO3)
+
 ## [Новая версия All Tweaker!!!](https://shre.su/0KO3) 
 [Новая версия All Tweaker!!!](https://shre.su/0KO3) 
+
 ## Отзыв от Антона
 > Это лучше чем Booster X
+
 ## [Поддержать автора](https://shre.su/F2FH)
 [Boosty](https://boosty.to/scode18/donate)<br>
-[Сокращенная ссылка на boosty через sharem](https://shre.su/F2FH)
+[Сокращенная ссылка на boosty через sharem](https://shre.su/F2FH)<br>
+[Моя sharem рефералка](https://sharem.tech/r/user3e27791d)<br>
+[Моя сокращенная sharem рефералка](https://shre.su/MICD)
+
 ## Скоро будет полностью переделанный твикер
 ![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
 
