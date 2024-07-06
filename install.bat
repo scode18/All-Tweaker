@@ -5,6 +5,7 @@ pip install ttkbootstrap
 
 REM Загружаем All Tweaker с GitHub
 Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
+Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs_data.py
 
 REM Создаем ярлык на рабочем столе с иконкой icon.ico
 echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
