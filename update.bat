@@ -27,6 +27,7 @@ Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tweaks.7z
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/icon.ico
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/install.bat
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
+Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs_data.py
 
 REM Распаковываем архив с помощью 7zip
 Utils\7za x tweaks.7z tweaks
