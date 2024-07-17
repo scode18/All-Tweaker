@@ -167,6 +167,7 @@ if 'Приватность' in tabs:
 search_entry_var = StringVar()
 search_entry = ttk.Entry(root, textvariable=search_entry_var)
 search_entry.pack(side='top', padx=10, pady=10, fill='x')
+
 def select_all_for_tabs(tab_frame):
     select_all_checkbox_var = tk.BooleanVar()
     select_all_checkbox = ttk.Checkbutton(tab_frame, text='Выделить всё', variable=select_all_checkbox_var)
@@ -193,14 +194,25 @@ for tab_name, checkbox_names in tabs.items():
     tab_frame = ttk.Frame(tab_control)
     tab_control.add(tab_frame, text=tab_name)
 
+    canvas = tk.Canvas(tab_frame, width=800, height=600)
+    canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+
+    scrollbar = ttk.Scrollbar(tab_frame, orient=tk.VERTICAL, command=canvas.yview)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    inner_frame = ttk.Frame(canvas)
+    canvas.create_window((0, 0), window=inner_frame, anchor='nw')
+
     if tab_name:
-        select_all_for_tabs(tab_frame)
+        select_all_for_tabs(inner_frame)
 
     num_columns = 1
     if tab_name == 'База':
         num_columns = 4
     elif tab_name == 'Приватность':
-        num_columns = 3
+        num_columns = 2
     elif tab_name == 'Оптимизация':
         num_columns = 3
     elif tab_name == 'Другая оптимизация':
@@ -216,21 +228,23 @@ for tab_name, checkbox_names in tabs.items():
 
     for i, checkbox_name in enumerate(checkbox_names):
         checkbox_var = tk.BooleanVar()
-        checkbox = ttk.Checkbutton(tab_frame, text=checkbox_name, variable=checkbox_var)
+        checkbox = ttk.Checkbutton(inner_frame, text=checkbox_name, variable=checkbox_var)
         checkbox.grid(row=i//num_columns+1, column=i%num_columns, sticky='w')
         checkboxes[checkbox_name] = checkbox_var
 
-# # Настройка стиля кнопки "Выполнить"
-# execute_button.configure(style='Custom.TButton')
+    inner_frame.update_idletasks()
+    canvas.config(scrollregion=canvas.bbox("all"))
 
-# # Создаем кастомный стиль для кнопки "Выполнить"
-# style = ttk.Style()
-# style.configure('Custom.TButton', background='black', foreground='white')
+canvas = tk.Canvas(tab_frame, width=800, height=600)
+canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
-# # Поле для ввода сверху с отступом
-# search_entry_var = tk.StringVar()
-# search_entry = ttk.Entry(root, textvariable=search_entry_var)
-# search_entry.pack(side='top', padx=10, pady=10, fill='x')
+scrollbar = ttk.Scrollbar(tab_frame, orient=tk.VERTICAL, command=canvas.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+canvas.configure(yscrollcommand=scrollbar.set)
+
+inner_frame = ttk.Frame(canvas)
+canvas.create_window((0, 0), window=inner_frame, anchor='nw')
 
 # Размещение элементов
 tab_control.pack(expand=1, fill='both', padx=10, pady=10)
