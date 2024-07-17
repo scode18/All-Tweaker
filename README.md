@@ -21,6 +21,7 @@
 
 ## [Полностью переделанный твикер](https://shre.su/0KO3)
 ![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
+![image](https://github.com/user-attachments/assets/62583ce6-1f83-4e39-9cd7-b5e20aecce50)
 
 ## [Новая версия All Tweaker!!!](https://shre.su/0KO3) 
 [Новая версия All Tweaker!!!](https://shre.su/0KO3) 
