@@ -55,12 +55,71 @@ def restart():
 # Кастомизация консоли
 subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
 
-# Создание главного окна
+# Создаем основное окно
 root = ttk.Window(themename='vapor')
-# root = ttk.Window(themename='cyborg')
-# root.iconbitmap(r'icon.ico')
 root.title('All Tweaker Beta')
 root.attributes('-fullscreen', True)
+
+# Переменные для хранения текущего шрифта и темы
+current_font = ('Ubuntu Mono', 8)
+current_theme = 'vapor'
+
+# Функция для обновления стиля элементов с учетом выбранного шрифта
+def update_font_style():
+    style = ttk.Style()
+    style.configure('TLabel', font=current_font)
+    style.configure('TButton', font=current_font)
+    style.configure('TCheckbutton', font=current_font)
+    style.configure('TCombobox', font=current_font)
+    style.configure('TTreeview', font=current_font)
+    style.configure('TNotebook.Tab', font=current_font)
+
+# Функция для обновления текущего шрифта
+def update_font(event=None):
+    global current_font
+    font_family = font_family_var.get()
+    font_size = font_size_var.get()
+    current_font = (font_family, font_size)
+    update_font_style()
+
+# Функция для обновления текущей темы
+def update_theme(event=None):
+    global current_theme
+    new_theme = theme_var.get()
+    if new_theme != current_theme:
+        root.style.theme_use(new_theme)
+        current_theme = new_theme
+
+# Создаем фрейм для размещения ползунка, выпадающих списков для шрифта и темы
+font_and_theme_controls_frame = ttk.Frame(root)
+font_and_theme_controls_frame.pack(side='bottom', anchor='se', padx=10, pady=(0, 10))
+
+# Выпадающий список для выбора темы
+theme_var = tk.StringVar(value=current_theme)
+theme_values = root.style.theme_names()
+theme_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=theme_var, values=theme_values)
+theme_dropdown.pack(side='left', padx=(0, 5))
+theme_dropdown.bind('<<ComboboxSelected>>', update_theme)
+
+# Выпадающий список для выбора шрифта
+font_family_var = tk.StringVar(value='Ubuntu Mono')
+font_family_values = ['Roboto', 'Montserrat', 'Lato', 'Open Sans', 'Nunito', 'Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Courier New', 'Ubuntu', 'Ubuntu Mono', 'Ubuntu Condensed', 'Ubuntu Light', 'Ubuntu Bold', 'System', 'Terminal']
+font_family_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=font_family_var, values=font_family_values)
+font_family_dropdown.pack(side='right', padx=(5, 0))
+font_family_dropdown.bind('<<ComboboxSelected>>', update_font)
+
+# Ползунок для выбора размера шрифта
+font_size_var = tk.IntVar(value=10)
+font_size_slider = ttk.Scale(font_and_theme_controls_frame, variable=font_size_var, from_=8, to=16, orient='horizontal')
+font_size_slider.pack(side='right', padx=(0, 5))
+font_size_slider.bind('<ButtonRelease-1>', update_font)
+
+# Вызываем функцию для установки начального стиля
+update_font_style()
+
+# Создание кнопок
+execute_button = ttk.Button(root, text='Выполнить', command=execute)
+execute_button.pack(side='top', padx=10, pady=10, fill='x')
 
 # Создание вкладок
 tab_control = ttk.Notebook(root)
@@ -74,8 +133,6 @@ tabs = {
                         'Хардкорная оптимизация + приватность Windows 10',  'Сделать копию реестра от studfile.net',        'Перезагрузка в Безопасный режим с поддержкой Сети','Обновить All Tweaker',
                         'Хардкорная оптимизация + приватность Windows 11',  'Импортировать копию реестра от studfile.net',  'Windows Vista - Server 2022 Activation',           'Выйти из All Tweaker',
     ],
-
-'Поддержка': ['Поддержка\\Бесплатно поддержать автора (зарегаться в sharem по реф. ссылке).bat', 'Поддержка\\Бесплатно поддержать автора (посмотреть рекламу).bat', 'Поддержка\\Поддержать автора (Boosty).bat'],
 
 'Приватность': ['Telemetry Disabler Ultimate', 'Оптимизировать и удалить телеметрию Google Chrome', 'Отключить телеметрию Microsoft Edge', 'Отключить телеметрию Mozilla Firefox', 'Отключить телеметрию Браузеров', 'Отключить телеметрию полностью', 'Отключить телеметрию Яндекс Браузера', 'Приватность и отпимизация от Flibustier', 'Приватность и отпимизация от ReviOS', 'Приватность от Adamx', 'Приватность от BoosterX и ios1ph', 'Приватность от IT-спец. Денис Курец', 'Приватность от Optimizer', 'Приватность от Pulse', 'Приватность от Win 10 Tweaker', 'Приватность от windowser', 'Терапия после обновлений винды', 'Удаление файла (CompatTelRunner.exe) телеметрия Windows', 'Удаление файла (mobsync.exe) синхронизация Windows', 'Удалить все приложения Microsoft', 'Удалить протокол SMBv1', 'Отключить телеметрию Браузеров//Оптимизировать и удалить телеметрию Google Chrome', 'Отключить телеметрию Браузеров//Отключить телеметрию Microsoft Edge', 'Отключить телеметрию Браузеров//Отключить телеметрию Mozilla Firefox', 'Отключить телеметрию Браузеров//Отключить телеметрию Яндекс Браузера', 'Adamx//Отключите дополнительные ненужные службы', 'Adamx//Отключить SmartSceen и блокировку загрузок', 'Adamx//Отключить взаимодействие с подключенными пользователями и телеметрию', 'Adamx//Отключить Защитник (включая исполняемый файл службы защиты от вредоносных программ)', 'Adamx//Отключить исполняемый файл службы защиты от вредоносных программ', 'Adamx//Отключить менеджер загрузки карт', 'Adamx//Отключить службы Bluetooth', 'Adamx//Отключить службы Xbox', 'Adamx//Отключить службы диагностики и телеметрии', 'Adamx//Отключить службы принтера', 'Adamx//Отключить средство устранения неполадок Центра обновления Windows', 'Adamx//Принудительно закрыть все процессы и службы(Безопасно)', 'BoosterX и ios1ph//Выключить автообновление драйверов', 'BoosterX и ios1ph//Остановить всю работу в фоне для Windows 10', 'BoosterX и ios1ph//Остановить всю работу в фоне для Windows 11', 'BoosterX и ios1ph//Отключение Spectre, Meldown, Tsx', 'BoosterX и ios1ph//Отключить антивирус Windows', 'BoosterX и ios1ph//Отключить виджеты для Windows 11', 'BoosterX и ios1ph//Отключить карты', 'BoosterX и ios1ph//Отключить обновления Windows', 'BoosterX и ios1ph//Отключить сбор данных в планировщике', 'BoosterX и ios1ph//Отключить телеметрию и прочую хрень', 'BoosterX и ios1ph//Отключить триггеры', 'BoosterX и ios1ph//Удалить телеметрию Nvidia', 'IT-спец. Денис Курец//Отключить Cortana', 'IT-спец. Денис Курец//Отключить Xbox', 'IT-спец. Денис Курец//Отключить другое', 'IT-спец. Денис Курец//Отключить историю', 'IT-спец. Денис Курец//Отключить планы', 'IT-спец. Денис Курец//Отключить сбор', 'IT-спец. Денис Курец//Отключить службы', 'IT-спец. Денис Курец//Отключить телеметрию', 'Optimizer//Отключить Cortana', 'Optimizer//Отключить «Новости и интересы»', 'Optimizer//Отключить безопасный режим Защитника Windows', 'Optimizer//Отключить общий доступ к медиаплееру', 'Optimizer//Отключить общий доступ к файлам', 'Optimizer//Отключить пограничную телеметрию', 'Optimizer//Отключить протокол SMBv1', 'Optimizer//Отключить протокол SMBv2', 'Optimizer//Отключить рекламу в Проводнике', 'Optimizer//Отключить телеметрию Office', 'Optimizer//Отключить телеметрию Visual Studio', 'Optimizer//Отключить телеметрию Xbox', 'Optimizer//Отключить телеметрию', 'Pulse//Отключить Cortana', 'Pulse//Отключить автоматическое обновление Windows', 'Pulse//Отключить ведение истории поисковых запросов', 'Pulse//Отключить и Xbox сервисы', 'Pulse//Отключить историю для приложений', 'Pulse//Отключить потенциально уязвимые службы', 'Pulse//Отключить сохранение списков последних открытых файлов', 'Pulse//Отключить телеметрию', 'Pulse//Очистка файла подкачки', 'Pulse//Убрать из планировщика запланированные задачи телеметрии', 'Win 10 Tweaker//Отключение «журналирования» Событий Windows', 'Win 10 Tweaker//Отключение ведения записи поведения пользователя', 'Win 10 Tweaker//Отключение всех видов телеметрий Office', 'Win 10 Tweaker//Отключение всех видов телеметрий Windows', 'Win 10 Tweaker//Отключение всех типов синхронизаций Windows', 'Win 10 Tweaker//Отключение и выпиливание шпионских модулей Microsoft', 'Win 10 Tweaker//Отключение определения местоположения пользователя', 'Win 10 Tweaker//Отключение проверки обращений через «Обратную связь»', 'Win 10 Tweaker//Отключение рекламного идентификатора и рекламы', 'Win 10 Tweaker//Отключение сбора данных об установленных приложениях', 'Win 10 Tweaker//Отключение сбора данных через события планировщика', 'Win 10 Tweaker//Отключение сбора и отправки данных рукописного ввода', 'Win 10 Tweaker//Отключение сбора статистики использования приложений', 'Win 10 Tweaker//Отключение сетевого доступа к доменам сбора данных', 'Win 10 Tweaker//Отключение скрытого мониторинга системы', 'Win 10 Tweaker//Отключение скрытого фонового обновления синтеза речи', 'Win 10 Tweaker//Отключение телеметрии NVIDIA', 'Win 10 Tweaker//Отключение удалённых экспериментов над ПК', 'windowser//Блокировать нежелательные веб узлы в файл hosts', 'windowser//Блокировка портов (безопасность)', 'windowser//Добавление правил брандмауэра. Блокировка нежелательных IP адресов', 'windowser//Отключить биометрическую службу Windows', 'windowser//Отключить все службы Xbox', 'windowser//Отключить камеру', 'windowser//Отключить нежелательные свойства Windows', 'windowser//Отключить обслуживание сенсорной клавиатуры и панели рукописного ввода', 'windowser//Отключить поиск в Windows', 'windowser//Отключить протокол SMB (общий доступ к файлам и принтерам)', 'windowser//Отключить розничную демонстрационную услугу', 'windowser//Отключить службу Bluetooth', 'windowser//Отключить службу Windows Update', 'windowser//Отключить службу геолокации', 'windowser//Отключить службу менеджера скачанных карт', 'windowser//Отключить службу общего доступа к проигрывателю Windows Media по сети', 'windowser//Отключить службу помощника по совместимости программ', 'windowser//Отключить службу предварительной оценки Windows', 'windowser//Отключить службу родительского контроля', 'windowser//Отключить службу удаленного реестора', 'windowser//Отключить службу управления корпоративными приложениями', 'windowser//Отключить Центр безопасности', 'windowser//Приватность Windows 10', 'windowser//Удалить шпионские службы от windowser'],
 
@@ -94,6 +151,8 @@ tabs = {
 'Электропитание': ["Adamx's Power Plan", 'Amit_v1', 'Amit_v1_lowlatency', 'Amit_v2', 'Amit_v2_extreme performance', 'Amit_v3', 'Amit_v3_low latency', 'Atlas Power Plan', 'Balanced', 'Bitsum Highest Performance', 'Calypto', 'CPU-MaxPower', 'GGOSv0_8_5', 'GGOSv0_8_5_Idle_Enabled', 'High Peformance', 'Muren', 'Muren_Idle_Enabled', 'Power saver', 'RekOS_Power_Plan', 'Ultra Low Latency Plans', 'Unixcorn', 'Unixcorn_Idle_Enabled', 'Zoyata', 'Zoyata_Low Latency', 'Выключение гибернации', 'Добавить высокую производительность', 'Добавить энергосбережение', 'Максимальная производительность', 'Открывать pow файлы', 'Открыть Электропитание', 'Отобразить скрытые пункты Электропитания', 'Показывать все иконки в трее', 'Старое меню питании для Windows 10', 'Тесты режимов электропитания', 'Удалить высокую производительность', 'Удалить энергосбережение'],
 
 'Программы': ['Программы\\Браузеры\\Cent Browser.bat', 'Программы\\Браузеры\\Thorium.bat', 'Программы\\Игровые платформы\\Battle.net.bat', 'Программы\\Игровые платформы\\Epic Games Launcher.bat', 'Программы\\Игровые платформы\\Origin.bat', 'Программы\\Игровые платформы\\Steam.bat', 'Программы\\Игровые платформы\\Ubisoft Connect.bat', 'Программы\\Оптимизация\\Mem Reduct.bat', 'Программы\\Приватность\\O&O ShutUp10++.bat', 'Программы\\Приватность\\Psiphon VPN.bat', 'Программы\\Приватность\\SimpleDnsCrypt.bat', 'Программы\\Приватность\\simplewall.bat', 'Программы\\Приватность\\smsniff.bat', 'Программы\\Приватность\\W10Privacy.bat', 'Программы\\Программы для общения и стриминга\\Discord.bat', 'Программы\\Программы для общения и стриминга\\OBS Studio.bat', 'Программы\\Программы для общения и стриминга\\Twitch.bat', 'Программы\\Твикеры\\BoosterX 2.bat', 'Программы\\Твикеры\\BoosterX.bat', 'Программы\\Твикеры\\Optimizer.bat', 'Программы\\Твикеры\\Win 10 Tweaker.bat', 'Программы\\Твикеры\\WinCry.bat', 'Программы\\Торрент-клиенты\\Deluge.bat', 'Программы\\Торрент-клиенты\\qBittorrent.bat'],
+
+'Поддержка': ['Поддержка\\Бесплатно поддержать автора (зарегаться в sharem по реф. ссылке).bat', 'Поддержка\\Бесплатно поддержать автора (посмотреть рекламу).bat', 'Поддержка\\Поддержать автора (Boosty).bat'],
 }
 # New code to add label "All Tweaker..." to the tab "search_entry.placemh"
 if 'Приватность' in tabs:
@@ -107,7 +166,7 @@ if 'Приватность' in tabs:
 
 search_entry_var = StringVar()
 search_entry = ttk.Entry(root, textvariable=search_entry_var)
-search_entry.pack(side='bottom', padx=10, pady=10)
+search_entry.pack(side='top', padx=10, pady=10, fill='x')
 def select_all_for_tabs(tab_frame):
     select_all_checkbox_var = tk.BooleanVar()
     select_all_checkbox = ttk.Checkbutton(tab_frame, text='Выделить всё', variable=select_all_checkbox_var)
@@ -161,29 +220,20 @@ for tab_name, checkbox_names in tabs.items():
         checkbox.grid(row=i//num_columns+1, column=i%num_columns, sticky='w')
         checkboxes[checkbox_name] = checkbox_var
 
-# Создание кнопок
-execute_button = ttk.Button(root, text='Выполнить', command=execute)
-restart_button = ttk.Button(root, text='Перезагрузка', command=restart)
+# # Настройка стиля кнопки "Выполнить"
+# execute_button.configure(style='Custom.TButton')
+
+# # Создаем кастомный стиль для кнопки "Выполнить"
+# style = ttk.Style()
+# style.configure('Custom.TButton', background='black', foreground='white')
+
+# # Поле для ввода сверху с отступом
+# search_entry_var = tk.StringVar()
+# search_entry = ttk.Entry(root, textvariable=search_entry_var)
+# search_entry.pack(side='top', padx=10, pady=10, fill='x')
 
 # Размещение элементов
-tab_control.pack(expand=1, fill='both')
-# search_entry.pack(side='left', padx=10, pady=10)
-# search_entry.place(x=0, y=0)
-# restart_button.pack(side='right', padx=10, pady=10)
-# execute_button.pack(side='right', padx=10, pady=10)
-
-# Create the "Выполнить" button
-execute_button = ttk.Button(root, text='Выполнить', command=execute)
-
-# Set the background color of the button
-execute_button.configure(style='Custom.TButton')
-
-# Create a custom style for the button
-style = ttk.Style()
-style.configure('Custom.TButton', background='black', foreground='white')
-
-# Position the button in the top-right corner of the window
-execute_button.place(relx=1.0, rely=0.0, anchor='ne')
+tab_control.pack(expand=1, fill='both', padx=10, pady=10)
 
 # Запуск окна
 root.mainloop()
