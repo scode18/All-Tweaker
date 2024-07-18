@@ -1,1 +1,1 @@
-launcher.exe python All.Tweaker.featuring.Howdy.Ho.py
+Utils\launcher.exe python All.Tweaker.py

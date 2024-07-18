@@ -1,13 +1,63 @@
 import tkinter as tk
 from tkinter import ttk
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-from tabs_data import tabs
+from tkinter import StringVar
+import ttkbootstrap as ttk
+from tabs import tabs
 import subprocess
-import os
+
+class ToolTip:
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.tooltip = None
+        self.widget.bind("<Enter>", self.show_tooltip)
+        self.widget.bind("<Leave>", self.hide_tooltip)
+
+    def show_tooltip(self, event):
+        x, y, _, _ = self.widget.bbox("insert")
+        x += self.widget.winfo_rootx() + 25
+        y += self.widget.winfo_rooty() + 25
+
+        self.tooltip = tk.Toplevel(self.widget)
+        self.tooltip.wm_overrideredirect(True)
+        self.tooltip.wm_geometry(f"+{x}x{y}")
+
+        label = tk.Label(self.tooltip, text=self.text, background="#ffffe0", relief="solid", borderwidth=1)
+        label.pack()
+
+    def hide_tooltip(self, event):
+        if self.tooltip:
+            self.tooltip.destroy()
+            self.tooltip = None
+
+def select_all_for_tabs(tab_frame):
+    select_all_checkbox_var = tk.BooleanVar()
+    select_all_checkbox = ttk.Checkbutton(tab_frame, text='Выделить всё', variable=select_all_checkbox_var)
+    select_all_checkbox.grid(row=0, column=0, sticky='w')
+
+    def select_all():
+        select_state = select_all_checkbox_var.get()
+        for checkbox in checkboxes.values():
+            checkbox.set(select_state)
+
+    select_all_checkbox.configure(command=select_all)
+
+def execute():
+    for checkbox_name, checkbox_var in checkboxes.items():
+        if checkbox_var.get():
+            subprocess.call(f'tweaks\\"{checkbox_name}"', shell=True)
+            subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
+            # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
+            # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
+
+def restart():
+    subprocess.run(['shutdown', '/r', '/t', '0'])
+
+# Кастомизация консоли
+subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
 
 # Создаем основное окно
-root = tb.Window(themename='vapor')
+root = ttk.Window(themename='vapor')
 root.title('All Tweaker Beta')
 root.attributes('-fullscreen', True)
 
@@ -68,32 +118,53 @@ font_size_slider.bind('<ButtonRelease-1>', update_font)
 # Вызываем функцию для установки начального стиля
 update_font_style()
 
-# Функция для запуска файла
-def run_file(file_name):
-    print(f"Выполняется: {file_name}")
-    subprocess.call(f'tweaks\\"{file_name}"', shell=True)
-    # Здесь можно добавить логику для запуска скрипта или команды
-    # subprocess.call(f'Utils\\PowerRun.exe ..\\tweaks\\"{file_name}"', shell=True)
-
-# Кнопка "Выполнить"
-execute_button = ttk.Button(root, text="Выполнить", command=lambda: run_file('Отключить UAC и smartscreen'))  # Пример, измените на нужное значение
+# Создание кнопок
+execute_button = ttk.Button(root, text='Выполнить', command=execute)
 execute_button.pack(side='top', padx=10, pady=10, fill='x')
-
-# Поле для ввода сверху с отступом
-search_entry_var = tk.StringVar()
-search_entry = ttk.Entry(root, textvariable=search_entry_var)
-search_entry.pack(side='top', padx=10, pady=10, fill='x')
 
 # Создание вкладок
 tab_control = ttk.Notebook(root)
-tab_control.pack(expand=1, fill='both', padx=10, pady=10)
 
-# Создаем вкладки, подвкладки и подподвкладки
-for tab_name, sub_tabs in tabs.items():
+# New code to add label "All Tweaker..." to the tab "search_entry.placemh"
+if 'Приватность' in tabs:
+    tab_frame = ttk.Frame(tab_control)
+    label = ttk.Label(tab_frame, text="""
+    All Tweaker Beta (scode18) — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
+    В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
+    All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
+    label.pack()
+    tab_control.add(tab_frame, text='All Tweaker')
+
+search_entry_var = StringVar()
+search_entry = ttk.Entry(root, textvariable=search_entry_var)
+search_entry.pack(side='top', padx=10, pady=10, fill='x')
+
+def select_all_for_tabs(tab_frame):
+    select_all_checkbox_var = tk.BooleanVar()
+    select_all_checkbox = ttk.Checkbutton(tab_frame, text='Выделить всё', variable=select_all_checkbox_var)
+    # select_all_checkbox.grid(row=0, column=0, sticky='w')
+
+    def select_all():
+        select_state = select_all_checkbox_var.get()
+        for checkbox in checkboxes.values():
+            checkbox.set(select_state)
+
+    def update_checkboxes(*args):
+        entered_text = search_entry_var.get().lower()
+        for checkbox_name, checkbox_var in checkboxes.items():
+            if entered_text in checkbox_name.lower():
+                checkbox_var.set(True)
+            else:
+                checkbox_var.set(False)
+
+    select_all_checkbox.configure(command=select_all)
+    search_entry_var.trace_add('write', update_checkboxes)
+
+checkboxes = {}
+for tab_name, checkbox_names in tabs.items():
     tab_frame = ttk.Frame(tab_control)
     tab_control.add(tab_frame, text=tab_name)
 
-    # Creamos canvas y scrollbar para la pestaña
     canvas = tk.Canvas(tab_frame, width=800, height=600)
     canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
@@ -102,64 +173,52 @@ for tab_name, sub_tabs in tabs.items():
 
     canvas.configure(yscrollcommand=scrollbar.set)
 
-    # Creamos el frame interno dentro del canvas
     inner_frame = ttk.Frame(canvas)
     canvas.create_window((0, 0), window=inner_frame, anchor='nw')
 
-    # Creamos las subvistas dentro del frame interno
-    sub_tab_control = ttk.Notebook(inner_frame)
-    sub_tab_control.pack(expand=1, fill='both', padx=10, pady=10)
+    if tab_name:
+        select_all_for_tabs(inner_frame)
 
-    for sub_tab_name, elements in sub_tabs.items():
-        if isinstance(elements, dict):  # Si el elemento es un diccionario, es una subvista
-            sub_sub_tab_control = ttk.Notebook(sub_tab_control)
-            sub_tab_control.add(sub_sub_tab_control, text=sub_tab_name)
+    num_columns = 1
+    if tab_name == 'База':
+        num_columns = 4
+    elif tab_name == 'Приватность':
+        num_columns = 2
+    elif tab_name == 'Оптимизация':
+        num_columns = 2
+    elif tab_name == 'Другая оптимизация':
+        num_columns = 2
+    elif tab_name == 'Исправление проблем':
+        num_columns = 2
+    elif tab_name == 'Удалить приложения Microsoft':
+        num_columns = 2
+    elif tab_name == 'Электропитание':
+        num_columns = 3
+    elif tab_name == 'Программы':
+        num_columns = 3
 
-            for sub_sub_tab_name, sub_elements in elements.items():
-                sub_sub_tab_frame = ttk.Frame(sub_sub_tab_control)
-                sub_sub_tab_control.add(sub_sub_tab_frame, text=sub_sub_tab_name)
+    for i, checkbox_name in enumerate(checkbox_names):
+        checkbox_var = tk.BooleanVar()
+        checkbox = ttk.Checkbutton(inner_frame, text=checkbox_name, variable=checkbox_var)
+        checkbox.grid(row=i//num_columns+1, column=i%num_columns, sticky='w')
+        checkboxes[checkbox_name] = checkbox_var
 
-                # Creamos dos columnas para los checkboxes
-                left_column_frame = ttk.Frame(sub_sub_tab_frame)
-                left_column_frame.pack(side='left', anchor='n', padx=10, pady=5)
-
-                right_column_frame = ttk.Frame(sub_sub_tab_frame)
-                right_column_frame.pack(side='left', anchor='n', padx=10, pady=5)
-
-                for i, element in enumerate(sub_elements):
-                    checkbox_var = tk.BooleanVar()
-                    checkbox = ttk.Checkbutton(left_column_frame if i % 2 == 0 else right_column_frame,
-                                              text=element, variable=checkbox_var,
-                                              command=lambda file_name=element: run_file(file_name))
-                    checkbox.pack(side='top', anchor='w', padx=5, pady=5)
-        else:
-            sub_tab_frame = ttk.Frame(sub_tab_control)
-            sub_tab_control.add(sub_tab_frame, text=sub_tab_name)
-
-            # Creamos dos columnas para los checkboxes
-            left_column_frame = ttk.Frame(sub_tab_frame)
-            left_column_frame.pack(side='left', anchor='n', padx=10, pady=5)
-
-            right_column_frame = ttk.Frame(sub_tab_frame)
-            right_column_frame.pack(side='left', anchor='n', padx=10, pady=5)
-
-            for i, element in enumerate(elements):
-                checkbox_var = tk.BooleanVar() 
-                checkbox = ttk.Checkbutton(left_column_frame if i % 2 == 0 else right_column_frame,
-                                          text=element, variable=checkbox_var,
-                                          command=lambda file_name=element: run_file(file_name))
-                checkbox.pack(side='top', anchor='w', padx=5, pady=5)
-
-    # Actualizamos el tamaño del canvas
     inner_frame.update_idletasks()
-    canvas.configure(scrollregion=canvas.bbox("all"))
+    canvas.config(scrollregion=canvas.bbox("all"))
 
-    # Función para desplazar el canvas
-    def scroll_canvas(event):
-        canvas.yview_scroll(-1 * (event.delta // 120), "units")
+canvas = tk.Canvas(tab_frame, width=800, height=600)
+canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
-    # Vinculamos la función de desplazamiento al evento de desplazamiento del mouse
-    canvas.bind_all("<MouseWheel>", scroll_canvas)
+scrollbar = ttk.Scrollbar(tab_frame, orient=tk.VERTICAL, command=canvas.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
+canvas.configure(yscrollcommand=scrollbar.set)
+
+inner_frame = ttk.Frame(canvas)
+canvas.create_window((0, 0), window=inner_frame, anchor='nw')
+
+# Размещение элементов
+tab_control.pack(expand=1, fill='both', padx=10, pady=10)
+
+# Запуск окна
 root.mainloop()
-
