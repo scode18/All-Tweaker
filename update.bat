@@ -30,8 +30,8 @@ Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.p
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs.py
 
 Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.Start.bat
-Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/elevator.exe
-Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/launcher.exe
+Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/Utils/elevator.exe
+Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/Utils/launcher.exe
 
 REM Распаковываем архив с помощью 7zip
 Utils\7za x tweaks.7z tweaks
