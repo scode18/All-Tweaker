@@ -15,11 +15,10 @@
 ## Отзыв от Антона
 > Это лучше чем Booster X
 
-## [Поддержать автора](https://shre.su/F2FH)
+## [Поддержать автора](https://www.tinkoff.ru/cf/2VBH9zSztcW)
 [Boosty](https://boosty.to/scode18/donate)<br>
-[Сокращенная ссылка на boosty через sharem](https://shre.su/F2FH)<br>
 [Моя sharem рефералка](https://sharem.tech/r/user3e27791d)<br>
-[Моя сокращенная sharem рефералка](https://shre.su/MICD)
+[Т-Банк](https://www.tinkoff.ru/cf/2VBH9zSztcW)
 
 ## [Полностью переделанный твикер](https://shre.su/0KO3)
 ![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
