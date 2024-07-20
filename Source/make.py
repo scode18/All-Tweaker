@@ -121,142 +121,15 @@ def redirect_stdout(new_target):
     finally:
         sys.stdout = save_target # restore the original target
 
-text = '''import tkinter as tk
-from tkinter import ttk
-from tkinter import StringVar
-import ttkbootstrap as ttk
-import subprocess
-
-class ToolTip:
-    def __init__(self, widget, text):
-        self.widget = widget
-        self.text = text
-        self.tooltip = None
-        self.widget.bind("<Enter>", self.show_tooltip)
-        self.widget.bind("<Leave>", self.hide_tooltip)
-
-    def show_tooltip(self, event):
-        x, y, _, _ = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 25
-        y += self.widget.winfo_rooty() + 25
-
-        self.tooltip = tk.Toplevel(self.widget)
-        self.tooltip.wm_overrideredirect(True)
-        self.tooltip.wm_geometry(f"+{x}x{y}")
-
-        label = tk.Label(self.tooltip, text=self.text, background="#ffffe0", relief="solid", borderwidth=1)
-        label.pack()
-
-    def hide_tooltip(self, event):
-        if self.tooltip:
-            self.tooltip.destroy()
-            self.tooltip = None
-
-def select_all_for_tabs(tab_frame):
-    select_all_checkbox_var = tk.BooleanVar()
-    select_all_checkbox = ttk.Checkbutton(tab_frame, text='Выделить всё', variable=select_all_checkbox_var)
-    select_all_checkbox.grid(row=0, column=0, sticky='w')
-
-    def select_all():
-        select_state = select_all_checkbox_var.get()
-        for checkbox in checkboxes.values():
-            checkbox.set(select_state)
-
-    select_all_checkbox.configure(command=select_all)
-
-def execute():
-    for checkbox_name, checkbox_var in checkboxes.items():
-        if checkbox_var.get():
-            subprocess.call(f'tweaks\\\\"{checkbox_name}"', shell=True)
-            subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\\\{checkbox_name}.ps1'])
-            # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
-            # subprocess.run(['launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\\\{checkbox_name}.ps1'])
-
-def restart():
-    subprocess.run(['shutdown', '/r', '/t', '0'])
-
-# Кастомизация консоли
-subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
-
-# Создаем основное окно
-root = ttk.Window(themename='vapor')
-root.title('All Tweaker Beta')
-root.attributes('-fullscreen', True)
-
-# Переменные для хранения текущего шрифта и темы
-current_font = ('Ubuntu Mono', 8)
-current_theme = 'vapor'
-
-# Функция для обновления стиля элементов с учетом выбранного шрифта
-def update_font_style():
-    style = ttk.Style()
-    style.configure('TLabel', font=current_font)
-    style.configure('TButton', font=current_font)
-    style.configure('TCheckbutton', font=current_font)
-    style.configure('TCombobox', font=current_font)
-    style.configure('TTreeview', font=current_font)
-    style.configure('TNotebook.Tab', font=current_font)
-
-# Функция для обновления текущего шрифта
-def update_font(event=None):
-    global current_font
-    font_family = font_family_var.get()
-    font_size = font_size_var.get()
-    current_font = (font_family, font_size)
-    update_font_style()
-
-# Функция для обновления текущей темы
-def update_theme(event=None):
-    global current_theme
-    new_theme = theme_var.get()
-    if new_theme != current_theme:
-        root.style.theme_use(new_theme)
-        current_theme = new_theme
-
-# Создаем фрейм для размещения ползунка, выпадающих списков для шрифта и темы
-font_and_theme_controls_frame = ttk.Frame(root)
-font_and_theme_controls_frame.pack(side='bottom', anchor='se', padx=10, pady=(0, 10))
-
-# Выпадающий список для выбора темы
-theme_var = tk.StringVar(value=current_theme)
-theme_values = root.style.theme_names()
-theme_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=theme_var, values=theme_values)
-theme_dropdown.pack(side='left', padx=(0, 5))
-theme_dropdown.bind('<<ComboboxSelected>>', update_theme)
-
-# Выпадающий список для выбора шрифта
-font_family_var = tk.StringVar(value='Ubuntu Mono')
-font_family_values = ['Roboto', 'Montserrat', 'Lato', 'Open Sans', 'Nunito', 'Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Courier New', 'Ubuntu', 'Ubuntu Mono', 'Ubuntu Condensed', 'Ubuntu Light', 'Ubuntu Bold', 'System', 'Terminal']
-font_family_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=font_family_var, values=font_family_values)
-font_family_dropdown.pack(side='right', padx=(5, 0))
-font_family_dropdown.bind('<<ComboboxSelected>>', update_font)
-
-# Ползунок для выбора размера шрифта
-font_size_var = tk.IntVar(value=10)
-font_size_slider = ttk.Scale(font_and_theme_controls_frame, variable=font_size_var, from_=8, to=16, orient='horizontal')
-font_size_slider.pack(side='right', padx=(0, 5))
-font_size_slider.bind('<ButtonRelease-1>', update_font)
-
-# Вызываем функцию для установки начального стиля
-update_font_style()
-
-# Создание кнопок
-execute_button = ttk.Button(root, text='Выполнить', command=execute)
-execute_button.pack(side='top', padx=10, pady=10, fill='x')
-
-# Создание вкладок
-tab_control = ttk.Notebook(root)
-
-tabs = {
+text = '''tabs = {
     'База': [
                         'Основная оптимизация + приватность Windows 10',    'Вернуть все службы',                           'Отключить UAC и smartscreen',                      'Windows 10 ALL version activator',
                         'Основная оптимизация + приватность Windows 11',    'Сделать бэкап служб',                          'Обычная перезагрузка',                             'Windows 11 ALL version activator',
                         'Углубленная оптимизация + приватность Windows 10', 'Сделать бэкап как bat',                        'Обычная перезагрузка в Безопасный режим',          'Отключить телеметрию Браузеров',
-                        'Углубленная оптимизация + приватность Windows 11', 'Сделать копию реестра от Роджера Роуленда',    'Перезагрузка в Безопасный режим с поддержкой CMD', 'Терапия после обновлений винды',
+                        'Углубленная оптимизация + приватность Windows 11', 'Сделать копию реестра от Роджера Роуленда',    'Перезагрузка в Безопасный режим с поддержкой CMD', 'Терапия после обновления Windows',
                         'Хардкорная оптимизация + приватность Windows 10',  'Сделать копию реестра от studfile.net',        'Перезагрузка в Безопасный режим с поддержкой Сети','Обновить All Tweaker',
                         'Хардкорная оптимизация + приватность Windows 11',  'Импортировать копию реестра от studfile.net',  'Windows Vista - Server 2022 Activation',           'Выйти из All Tweaker',
-    ],
-'''
+    ],'''
 
 # Initialize an empty list to store the top-level directory names
 top_directory_names = []
@@ -286,7 +159,7 @@ def get_all_paths(directory, extensions=None, exclude_files=None, exclude_dirs=N
                     paths.append(path)
     return paths
 
-extensions = ['.bat', '.cmd', '.ps1', '.exe', '.pow']
+extensions = ['.bat', '.cmd', '.ps1', '.exe', '.pow', 'reg']
 exclude_files = ['PowerRun.exe', 'pssuspend.exe', 'TI.exe']
 exclude_dirs = ['База', 'tweaks', 'Source', 'Utils']
 
@@ -301,7 +174,7 @@ def print_list():
                     exclude_subdirectories = []
                 all_paths = get_all_paths(directory_path, extensions, exclude_files, exclude_dirs)
                 all_paths = [os.path.relpath(path, directory_path) for path in all_paths]
-                all_paths = [os.path.splitext(path)[0] for path in all_paths]
+                # all_paths = [os.path.splitext(path)[0] for path in all_paths]
                 all_paths = [path for path in all_paths if not os.path.basename(path) == '.' and not any(subdirectory in path for subdirectory in exclude_subdirectories)]
                 # print(f'\nВсе файлы в каталоге {directory_name}')
                 print('\n')
@@ -333,107 +206,9 @@ def delete_reg_files(directory):
                 os.remove(file_path)
                 print(f"Удален файл: {file_path}")
 
-delete_reg_files('tweaks')
+# delete_reg_files('tweaks')
 
-with open('All.Tweaker.py', 'w', encoding='utf-8') as f:
-    f.write(text + result + '''}
-# New code to add label "All Tweaker..." to the tab "search_entry.placemh"
-if 'Приватность' in tabs:
-    tab_frame = ttk.Frame(tab_control)
-    label = ttk.Label(tab_frame, text="""
-    All Tweaker Beta (scode18) — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации.
-    В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
-    All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
-    label.pack()
-    tab_control.add(tab_frame, text='All Tweaker')
-
-search_entry_var = StringVar()
-search_entry = ttk.Entry(root, textvariable=search_entry_var)
-search_entry.pack(side='top', padx=10, pady=10, fill='x')
-
-def select_all_for_tabs(tab_frame):
-    select_all_checkbox_var = tk.BooleanVar()
-    select_all_checkbox = ttk.Checkbutton(tab_frame, text='Выделить всё', variable=select_all_checkbox_var)
-    # select_all_checkbox.grid(row=0, column=0, sticky='w')
-
-    def select_all():
-        select_state = select_all_checkbox_var.get()
-        for checkbox in checkboxes.values():
-            checkbox.set(select_state)
-
-    def update_checkboxes(*args):
-        entered_text = search_entry_var.get().lower()
-        for checkbox_name, checkbox_var in checkboxes.items():
-            if entered_text in checkbox_name.lower():
-                checkbox_var.set(True)
-            else:
-                checkbox_var.set(False)
-
-    select_all_checkbox.configure(command=select_all)
-    search_entry_var.trace_add('write', update_checkboxes)
-
-checkboxes = {}
-for tab_name, checkbox_names in tabs.items():
-    tab_frame = ttk.Frame(tab_control)
-    tab_control.add(tab_frame, text=tab_name)
-
-    canvas = tk.Canvas(tab_frame, width=800, height=600)
-    canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
-
-    scrollbar = ttk.Scrollbar(tab_frame, orient=tk.VERTICAL, command=canvas.yview)
-    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-
-    canvas.configure(yscrollcommand=scrollbar.set)
-
-    inner_frame = ttk.Frame(canvas)
-    canvas.create_window((0, 0), window=inner_frame, anchor='nw')
-
-    if tab_name:
-        select_all_for_tabs(inner_frame)
-
-    num_columns = 1
-    if tab_name == 'База':
-        num_columns = 4
-    elif tab_name == 'Приватность':
-        num_columns = 2
-    elif tab_name == 'Оптимизация':
-        num_columns = 2
-    elif tab_name == 'Другая оптимизация':
-        num_columns = 2
-    elif tab_name == 'Исправление проблем':
-        num_columns = 2
-    elif tab_name == 'Удалить приложения Microsoft':
-        num_columns = 2
-    elif tab_name == 'Электропитание':
-        num_columns = 3
-    elif tab_name == 'Программы':
-        num_columns = 3
-
-    for i, checkbox_name in enumerate(checkbox_names):
-        checkbox_var = tk.BooleanVar()
-        checkbox = ttk.Checkbutton(inner_frame, text=checkbox_name, variable=checkbox_var)
-        checkbox.grid(row=i//num_columns+1, column=i%num_columns, sticky='w')
-        checkboxes[checkbox_name] = checkbox_var
-
-    inner_frame.update_idletasks()
-    canvas.config(scrollregion=canvas.bbox("all"))
-
-canvas = tk.Canvas(tab_frame, width=800, height=600)
-canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
-
-scrollbar = ttk.Scrollbar(tab_frame, orient=tk.VERTICAL, command=canvas.yview)
-scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-
-canvas.configure(yscrollcommand=scrollbar.set)
-
-inner_frame = ttk.Frame(canvas)
-canvas.create_window((0, 0), window=inner_frame, anchor='nw')
-
-# Размещение элементов
-tab_control.pack(expand=1, fill='both', padx=10, pady=10)
-
-# Запуск окна
-root.mainloop()
-''')
+with open('tabs.py', 'w', encoding='utf-8') as f:
+    f.write(text + result + '}')
 
 os.system('python All.Tweaker.py')
