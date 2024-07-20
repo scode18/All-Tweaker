@@ -4,8 +4,11 @@ REM Загружаем библиотеку ttkbootstrap
 pip install ttkbootstrap
 
 REM Загружаем All Tweaker с GitHub
-rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
-rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs_data.py
+taskkill /im py.exe /f
+del All.Tweaker.py
+del tabs_data.py
+Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
+Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs_data.py
 
 rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.featuring.Howdy.Ho.py
 rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.Start.bat

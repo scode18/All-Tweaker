@@ -22,6 +22,7 @@ if %errorlevel% equ 0 (
 )
 
 REM Загружаем All Tweaker с GitHub
+del install.bat
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/LICENSE
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tweaks.7z
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/icon.ico
