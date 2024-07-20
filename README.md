@@ -40,44 +40,7 @@ REM Установка All Tweaker
 setup.bat
 install.bat
 ```
-## Редактирование твиков и вкладок
-```batch
-REM Скачай репозиторий или каталоги Utils и Source
-REM Загружаем Python
-Utils\busybox wget https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe
-REM Установка Python без графического интерфейса
-python-3.12.3-amd64.exe /quiet InstallAllUsers=1 PrependPath=1
 
-REM Распаковываем архив с помощью 7zip
-cd Utils
-7za x ..\Source\Tweaks.7z
-copy ..\Source\make.py .
-REM Добавляем или удаляем твики, каталоги и подкаталоги
-REM Твики содержат расширения ".bat", ".cmd", ".ps1", ".exe", ".pow", а ".reg" файлы удаляются
-
-REM Запускаем make.py
-make.py
-```
-## Если хочешь изменить количество столбцов
-```python
-    num_columns = 1
-    if tab_name == 'База':
-        num_columns = 4
-    elif tab_name == 'Приватность':
-        num_columns = 3
-    elif tab_name == 'Оптимизация':
-        num_columns = 3
-    elif tab_name == 'Другая оптимизация':
-        num_columns = 2
-    elif tab_name == 'Углубленная оптимизация и Хардкор':
-        num_columns = 3
-    elif tab_name == 'Исправление проблем':
-        num_columns = 2
-    elif tab_name == 'Удалить приложения Microsoft':
-        num_columns = 2
-    elif tab_name == 'Электропитание':
-        num_columns = 3
-```
 ## Скрины
 ![Снимок экрана (21)](https://github.com/scode18/All-Tweaker/assets/98618381/6acc543a-b5d2-459b-a350-509c479dfcb3)
 ![photo_2024-04-22_17-48-56](https://github.com/scode18/All-Tweaker/assets/98618381/fa0c3fa8-993e-4c1c-bc8c-681d38417835)
