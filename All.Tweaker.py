@@ -45,10 +45,18 @@ def select_all_for_tabs(tab_frame):
 def execute():
     for checkbox_name, checkbox_var in checkboxes.items():
         if checkbox_var.get():
-            subprocess.call(f'tweaks\\"{checkbox_name}"', shell=True)
-            subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
+            tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
+            print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
+            subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
+            # subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
             # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
             # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
+
+def get_tab_name(checkbox_name):
+    for tab_name, checkbox_names in tabs.items():
+        if checkbox_name in checkbox_names:
+            return tab_name
+    return None  # return None if the checkbox name is not found in any tab
 
 def restart():
     subprocess.run(['shutdown', '/r', '/t', '0'])
@@ -193,7 +201,7 @@ for tab_name, checkbox_names in tabs.items():
     elif tab_name == 'Удалить приложения Microsoft':
         num_columns = 2
     elif tab_name == 'Электропитание':
-        num_columns = 3
+        num_columns = 2
     elif tab_name == 'Программы':
         num_columns = 3
 
