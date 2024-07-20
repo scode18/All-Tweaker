@@ -7,11 +7,7 @@
 [All Tweaker](https://shre.su/0KO3) — это утилита для тонкой настройки операционной системы и программного обеспечения, которая позволяет изменять определённые параметры для персонализации и оптимизации. В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие. All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений. [Telegram-канал
 ](https://t.me/all_tweaker)
 
-## [Новая, стабильная версия All Tweaker](https://shre.su/2JXF)
-
-## [Скачать All Tweaker](https://shre.su/0KO3)
-
-## [Скачать All Tweaker с участием Хауди Хо](https://shre.su/SRCL)
+## [Скачать версия All Tweaker](https://shre.su/0KO3)
 
 ## Отзыв от Антона
 > Это лучше чем Booster X
@@ -20,13 +16,6 @@
 [Boosty](https://boosty.to/scode18/donate)<br>
 [Моя sharem рефералка](https://sharem.tech/r/user3e27791d)<br>
 [Т-Банк](https://www.tinkoff.ru/cf/2VBH9zSztcW)
-
-## [Полностью переделанный твикер](https://shre.su/0KO3)
-![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
-![image](https://github.com/user-attachments/assets/62583ce6-1f83-4e39-9cd7-b5e20aecce50)
-
-## [Новая версия All Tweaker!!!](https://shre.su/0KO3) 
-[Новая версия All Tweaker!!!](https://shre.su/0KO3) 
 
 ## [Установка](https://shre.su/0KO3)
 [All.Tweaker.Beta.exe](https://shre.su/0KO3)
@@ -42,6 +31,8 @@ install.bat
 ```
 
 ## Скрины
+![image](https://github.com/scode18/All-Tweaker/assets/98618381/7acccc40-8593-4a92-a4af-77626d8ae2ed)
+![image](https://github.com/user-attachments/assets/62583ce6-1f83-4e39-9cd7-b5e20aecce50)
 ![Снимок экрана (21)](https://github.com/scode18/All-Tweaker/assets/98618381/6acc543a-b5d2-459b-a350-509c479dfcb3)
 ![photo_2024-04-22_17-48-56](https://github.com/scode18/All-Tweaker/assets/98618381/fa0c3fa8-993e-4c1c-bc8c-681d38417835)
 ## [Лицензия](https://shre.su/WXFN)
