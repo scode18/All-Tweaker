@@ -4,6 +4,8 @@ from tkinter import StringVar
 import ttkbootstrap as ttk
 from tabs import tabs
 import subprocess
+import getpass
+from datetime import datetime
 
 class ToolTip:
     def __init__(self, widget, text):
@@ -112,7 +114,7 @@ theme_dropdown.bind('<<ComboboxSelected>>', update_theme)
 
 # Выпадающий список для выбора шрифта
 font_family_var = tk.StringVar(value='Ubuntu Mono')
-font_family_values = ['Roboto', 'Montserrat', 'Lato', 'Open Sans', 'Nunito', 'Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Courier New', 'Ubuntu', 'Ubuntu Mono', 'Ubuntu Condensed', 'Ubuntu Light', 'Ubuntu Bold', 'System', 'Terminal']
+font_family_values = ['Roboto', 'Montserrat', 'Lato', 'Open Sans', 'Nunito', 'Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Courier New', 'Ubuntu', 'Ubuntu Mono', 'Ubuntu Condensed', 'Ubuntu Light', 'Ubuntu Bold', 'System', 'Terminal', 'Small Fonts', 'Fixedsys', 'hooge 05_53', 'hooge 05_54', 'hooge 05_55']
 font_family_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=font_family_var, values=font_family_values)
 font_family_dropdown.pack(side='right', padx=(5, 0))
 font_family_dropdown.bind('<<ComboboxSelected>>', update_font)
@@ -141,7 +143,8 @@ if 'Приватность' in tabs:
     В ней объединены все лучшие твики, которые я нашел, включая Win 10 Tweaker, Booster X и другие.
     All Tweaker позволяет настроить внешний вид графического интерфейса пользователя, а также оптимизировать производительность системы и приложений.""")
     label.pack()
-    tab_control.add(tab_frame, text='All Tweaker')
+    username = getpass.getuser()  # get the current username
+    tab_control.add(tab_frame, text=f'Привет, {username}')
 
 search_entry_var = StringVar()
 search_entry = ttk.Entry(root, textvariable=search_entry_var)
@@ -194,7 +197,9 @@ for tab_name, checkbox_names in tabs.items():
         num_columns = 2
     elif tab_name == 'Оптимизация':
         num_columns = 2
-    elif tab_name == 'Другая оптимизация':
+    elif tab_name == 'Очистка':
+        num_columns = 2    
+    elif tab_name == 'Кастомизация':
         num_columns = 2
     elif tab_name == 'Исправление проблем':
         num_columns = 2
