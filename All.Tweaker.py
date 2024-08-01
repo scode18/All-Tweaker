@@ -6,6 +6,7 @@ from tabs import tabs
 import subprocess
 import getpass
 from datetime import datetime
+import datetime
 
 class ToolTip:
     def __init__(self, widget, text):
@@ -44,15 +45,31 @@ def select_all_for_tabs(tab_frame):
 
     select_all_checkbox.configure(command=select_all)
 
+# def execute():
+#     for checkbox_name, checkbox_var in checkboxes.items():
+#         if checkbox_var.get():
+#             tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
+#             print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
+#             subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
+#             # subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
+#             # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
+#             # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
+
+def create_batch_file(activated_checkboxes):
+    filename = f"Config All Tweaker {datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.bat"
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write('@echo off\n')
+        f.write('chcp 65001\n')  # русская кодировка
+        for checkbox_name, checkbox_var in checkboxes.items():
+            if checkbox_var.get():
+                tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
+                f.write(f'cmd /c "tweaks\\{tab_name}\\{checkbox_name}"\n')
+    return filename
+
 def execute():
-    for checkbox_name, checkbox_var in checkboxes.items():
-        if checkbox_var.get():
-            tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
-            print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
-            subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
-            # subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
-            # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
-            # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
+    activated_checkboxes = [checkbox_name for checkbox_name, checkbox_var in checkboxes.items() if checkbox_var.get()]
+    filename = create_batch_file(activated_checkboxes)
+    subprocess.call(f'"{filename}"', shell=True)
 
 def get_tab_name(checkbox_name):
     for tab_name, checkbox_names in tabs.items():
@@ -190,23 +207,13 @@ for tab_name, checkbox_names in tabs.items():
     if tab_name:
         select_all_for_tabs(inner_frame)
 
-    num_columns = 1
+    num_columns = 2
     if tab_name == 'База':
         num_columns = 4
-    elif tab_name == 'Приватность':
-        num_columns = 2
-    elif tab_name == 'Оптимизация':
-        num_columns = 2
-    elif tab_name == 'Очистка':
-        num_columns = 2    
-    elif tab_name == 'Кастомизация':
-        num_columns = 2
-    elif tab_name == 'Исправление проблем':
-        num_columns = 2
-    elif tab_name == 'Удалить приложения Microsoft':
-        num_columns = 2
-    elif tab_name == 'Электропитание':
-        num_columns = 2
+    elif tab_name == 'Обновления':
+        num_columns = 1
+    elif tab_name == 'Поддержка':
+        num_columns = 1
     elif tab_name == 'Программы':
         num_columns = 3
 
