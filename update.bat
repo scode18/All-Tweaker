@@ -37,7 +37,7 @@ busybox wget https://github.com/scode18/All-Tweaker/raw/main/Utils/launcher.exe
 cd ..
 
 REM Распаковываем архив с помощью 7zip
-Utils\7za x tweaks.7z tweaks
+Utils\7za x tweaks.7z
 
 REM Удаляем загруженный архив
 del tweaks.7z
