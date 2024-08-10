@@ -28,5 +28,8 @@ cscript CreateShortcut.vbs
 REM Удаляем временный файл CreateShortcut.vbs
 del CreateShortcut.vbs
 
+REM Запускаем cleaning.py
+cleaning.py
+
 REM Запускаем All Tweaker
 All.Tweaker.Start.bat
