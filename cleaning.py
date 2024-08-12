@@ -33,13 +33,22 @@ for dir in os.listdir("tweaks"):
     elif os.path.isfile(path) and dir not in ["База", "Исправление проблем", "Кастомизация", "Обновления", "Оптимизация", "Оптимизация YouTube", "Остальное", "Очистка", "Поддержка", "Приватность", "Программы", "Удалить приложения Microsoft", "Электропитание", "make.py"]:
         os.remove(path)
         
-# Удаление файла "Терапия после обновления Windows" из директории tweaks\База
+# Удаление файлов "Терапия после обновления Windows" и "Отключить телеметрию Браузеров" из директории tweaks\База
 base_dir = os.path.join("tweaks", "База")
-filename = "Терапия после обновления Windows"
-for ext in [".bat", ".cmd"]:
-    therapy_file = os.path.join(base_dir, filename + ext)
-    if os.path.exists(therapy_file):
-        os.remove(therapy_file)
+
+files_to_delete = [
+    "Терапия после обновления Windows",
+    "Отключить телеметрию Браузеров"
+]
+
+for filename in files_to_delete:
+    for ext in [".bat", ".cmd"]:
+        file_path = os.path.join(base_dir, filename + ext)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"Файл '{filename + ext}' успешно удален.")
+        else:
+            print(f"Файл '{filename + ext}' не найден.")
 
 # Удаление ненужных папок в tweaks\Оптимизация
 for dir in os.listdir("tweaks/Оптимизация"):
