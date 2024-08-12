@@ -67,7 +67,7 @@ def create_batch_file(activated_checkboxes):
             if checkbox_var.get():
                 tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
                 f.write(f'cmd /c "tweaks\\{tab_name}\\{checkbox_name}"\n')
-    # return filename
+    return filename
 
 def execute():
     activated_checkboxes = [checkbox_name for checkbox_name, checkbox_var in checkboxes.items() if checkbox_var.get()]
