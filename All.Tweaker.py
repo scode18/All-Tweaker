@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import StringVar
 import ttkbootstrap as ttk
 from tabs import tabs
+import os
 import subprocess
 import getpass
 from datetime import datetime
@@ -56,7 +57,9 @@ def select_all_for_tabs(tab_frame):
 #             # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
 
 def create_batch_file(activated_checkboxes):
-    filename = f"Config All Tweaker {datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.bat"
+    filename = f"Configs\\Config All Tweaker {datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.bat"
+    # создаем папку Configs, если она не существует
+    os.makedirs("Configs", exist_ok=True)
     with open(filename, 'w', encoding='utf-8') as f:
         f.write('@echo off\n')
         f.write('chcp 65001\n')  # русская кодировка
@@ -64,7 +67,7 @@ def create_batch_file(activated_checkboxes):
             if checkbox_var.get():
                 tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
                 f.write(f'cmd /c "tweaks\\{tab_name}\\{checkbox_name}"\n')
-    return filename
+    # return filename
 
 def execute():
     activated_checkboxes = [checkbox_name for checkbox_name, checkbox_var in checkboxes.items() if checkbox_var.get()]
