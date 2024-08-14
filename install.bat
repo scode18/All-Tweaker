@@ -6,9 +6,9 @@ pip install ttkbootstrap
 REM Загружаем All Tweaker с GitHub
 taskkill /im py.exe /f
 del All.Tweaker.py
-del tabs.py
+rem del tabs.py
 Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
-Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs.py
+rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs.py
 
 rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.featuring.Howdy.Ho.py
 rem Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.Start.bat
@@ -27,9 +27,6 @@ cscript CreateShortcut.vbs
 
 REM Удаляем временный файл CreateShortcut.vbs
 del CreateShortcut.vbs
-
-REM Запускаем cleaning.py
-cleaning.py
 
 REM Запускаем All Tweaker
 All.Tweaker.Start.bat

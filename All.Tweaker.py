@@ -2,12 +2,16 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import StringVar
 import ttkbootstrap as ttk
-from tabs import tabs
 import os
 import subprocess
 import getpass
 from datetime import datetime
 import datetime
+
+import sys
+sys.path.insert(0, './tweaks')
+
+from tabs import tabs
 
 class ToolTip:
     def __init__(self, widget, text):
@@ -46,15 +50,15 @@ def select_all_for_tabs(tab_frame):
 
     select_all_checkbox.configure(command=select_all)
 
-# def execute():
-#     for checkbox_name, checkbox_var in checkboxes.items():
-#         if checkbox_var.get():
-#             tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
-#             print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
-#             subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
-#             # subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
-#             # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
-#             # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
+def execute_old():
+    for checkbox_name, checkbox_var in checkboxes.items():
+        if checkbox_var.get():
+            tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
+            print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
+            subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
+            # subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
+            # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
+            # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
 
 def create_batch_file(activated_checkboxes):
     filename = f"Configs\\Config All Tweaker {datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.bat"
@@ -69,10 +73,19 @@ def create_batch_file(activated_checkboxes):
                 f.write(f'cmd /c "tweaks\\{tab_name}\\{checkbox_name}"\n')
     return filename
 
+def update_config_file_list():
+    global config_file_values
+    config_file_values = [f for f in os.listdir('Configs') if f.endswith('.bat')]
+    config_file_dropdown['values'] = config_file_values
+
 def execute():
     activated_checkboxes = [checkbox_name for checkbox_name, checkbox_var in checkboxes.items() if checkbox_var.get()]
-    filename = create_batch_file(activated_checkboxes)
-    subprocess.call(f'"{filename}"', shell=True)
+    if execute_function_var.get() == 'Создать конфиг':
+        filename = create_batch_file(activated_checkboxes)
+        subprocess.call(f'"{filename}"', shell=True)
+        update_config_file_list()  # Обновляем список файлов конфигурации
+    elif execute_function_var.get() == 'Выполнить':
+        execute_old()
 
 def get_tab_name(checkbox_name):
     for tab_name, checkbox_names in tabs.items():
@@ -93,7 +106,7 @@ root.attributes('-fullscreen', True)
 
 # Переменные для хранения текущего шрифта и темы
 current_font = ('Ubuntu Mono', 8)
-current_theme = 'vapor'
+current_theme = 'Cyberpunk'
 
 # Функция для обновления стиля элементов с учетом выбранного шрифта
 def update_font_style():
@@ -125,16 +138,37 @@ def update_theme(event=None):
 font_and_theme_controls_frame = ttk.Frame(root)
 font_and_theme_controls_frame.pack(side='bottom', anchor='se', padx=10, pady=(0, 10))
 
-# Выпадающий список для выбора темы
-theme_var = tk.StringVar(value=current_theme)
-theme_values = root.style.theme_names()
-theme_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=theme_var, values=theme_values)
-theme_dropdown.pack(side='left', padx=(0, 5))
-theme_dropdown.bind('<<ComboboxSelected>>', update_theme)
+# Выпадающий список для выбора функции кнопки "Выполнить"
+execute_function_var = tk.StringVar(value='Выполнить')
+execute_function_values = ['Создать конфиг', 'Выполнить']
+execute_function_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=execute_function_var, values=execute_function_values)
+execute_function_dropdown.pack(side='left', padx=(0, 5))
+
+# Выпадающий список для выбора файла конфигурации
+config_file_var = tk.StringVar()
+config_file_values = [f for f in os.listdir('Configs') if f.endswith('.bat')]
+config_file_frame = ttk.Frame(font_and_theme_controls_frame)
+config_file_dropdown = ttk.Combobox(config_file_frame, textvariable=config_file_var, values=config_file_values)
+config_file_dropdown.pack(side='left', padx=(0, 5))
+
+# Установка значения по умолчанию
+default_config = 'Конфиг All Tweaker от Хауди Хо.bat'
+if default_config in config_file_values:
+    config_file_var.set(default_config)
+
+def execute_config():
+    selected_file = config_file_var.get()
+    if selected_file:
+        subprocess.call(f'Configs\\{selected_file}', shell=True)
+
+execute_config_button = ttk.Button(config_file_frame, text='Выполнить конфиг', command=execute_config)
+execute_config_button.pack(side='left', padx=(0, 5))
+
+config_file_frame.pack(side='left', padx=(0, 5))
 
 # Выпадающий список для выбора шрифта
-font_family_var = tk.StringVar(value='Ubuntu Mono')
-font_family_values = ['Roboto', 'Montserrat', 'Lato', 'Open Sans', 'Nunito', 'Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Courier New', 'Ubuntu', 'Ubuntu Mono', 'Ubuntu Condensed', 'Ubuntu Light', 'Ubuntu Bold', 'System', 'Terminal', 'Small Fonts', 'Fixedsys', 'hooge 05_53', 'hooge 05_54', 'hooge 05_55']
+font_family_var = tk.StringVar(value='GitHub: scode18')
+font_family_values = ['Rust', 'Foxy', 'Frizon', 'Velocity', 'Roboto', 'Montserrat', 'Lato', 'Open Sans', 'Nunito', 'Arial', 'Times New Roman', 'Verdana', 'Georgia', 'Courier New', 'Ubuntu', 'Ubuntu Mono', 'Ubuntu Condensed', 'Ubuntu Light', 'Ubuntu Bold', 'System', 'Terminal', 'Small Fonts', 'Fixedsys', 'hooge 05_53', 'hooge 05_54', 'hooge 05_55']
 font_family_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=font_family_var, values=font_family_values)
 font_family_dropdown.pack(side='right', padx=(5, 0))
 font_family_dropdown.bind('<<ComboboxSelected>>', update_font)
@@ -144,6 +178,12 @@ font_size_var = tk.IntVar(value=10)
 font_size_slider = ttk.Scale(font_and_theme_controls_frame, variable=font_size_var, from_=8, to=16, orient='horizontal')
 font_size_slider.pack(side='right', padx=(0, 5))
 font_size_slider.bind('<ButtonRelease-1>', update_font)
+
+# Выпадающий список для выбора темы
+theme_var = tk.StringVar(value=current_theme)
+theme_values = root.style.theme_names()
+theme_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=theme_var, values=theme_values)
+theme_dropdown.pack(side='right', padx=(0, 5))
 
 # Вызываем функцию для установки начального стиля
 update_font_style()
