@@ -56,7 +56,6 @@ def execute_old():
             tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
             print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
             subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
-            # subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', f'tweaks\\{checkbox_name}.ps1'])
             # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
             # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
 
@@ -152,7 +151,7 @@ config_file_dropdown = ttk.Combobox(config_file_frame, textvariable=config_file_
 config_file_dropdown.pack(side='left', padx=(0, 5))
 
 # Установка значения по умолчанию
-default_config = 'Конфиг All Tweaker от Хауди Хо.bat'
+default_config = 'Конфиг оптимизации от разработчика.bat'
 if default_config in config_file_values:
     config_file_var.set(default_config)
 
@@ -258,6 +257,8 @@ for tab_name, checkbox_names in tabs.items():
     elif tab_name == 'Поддержка':
         num_columns = 1
     elif tab_name == 'Программы':
+        num_columns = 3
+    elif tab_name == 'Приватность':
         num_columns = 3
 
     for i, checkbox_name in enumerate(checkbox_names):
