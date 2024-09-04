@@ -107,6 +107,7 @@ root.attributes('-fullscreen', config.getboolean('Window', 'fullscreen'))
 subprocess.call(f"title All Tweaker Beta & mode con: cols={config['Window']['width']} lines={config['Window']['height']} & color a & echo Welcome to All Tweaker", shell=True)
 
 # Переменные для хранения текущего шрифта и темы
+checkbox_current_font = (config['General']['font_family'], int(config['General']['checkbox_font_size']))
 current_font = (config['General']['font_family'], int(config['General']['font_size']))
 current_theme = config['General']['theme']
 
@@ -115,7 +116,7 @@ def update_font_style():
     style = ttk.Style()
     style.configure('TLabel', font=current_font)
     style.configure('TButton', font=current_font)
-    style.configure('TCheckbutton', font=current_font)
+    style.configure('TCheckbutton', font=checkbox_current_font)
     style.configure('TCombobox', font=current_font)
     style.configure('TTreeview', font=current_font)
     style.configure('TNotebook.Tab', font=current_font)
@@ -148,7 +149,7 @@ font_and_theme_controls_frame = ttk.Frame(root)
 font_and_theme_controls_frame.pack(side='bottom', anchor='se', padx=10, pady=(0, 10))
 
 # Выпадающий список для выбора функции кнопки "Выполнить"
-execute_function_var = tk.StringVar(value=config['Execute']['execute_function'])
+execute_function_var = tk.StringVar(value='Выполнить')
 execute_function_values = ['Создать конфиг', 'Выполнить']
 execute_function_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=execute_function_var, values=execute_function_values)
 execute_function_dropdown.pack(side='left', padx=(0, 5))
@@ -290,8 +291,6 @@ for tab_name, checkbox_names in tabs.items():
     elif tab_name == 'Поддержка':
         num_columns = 1
     elif tab_name == 'Программы':
-        num_columns = 3
-    elif tab_name == 'Приватность':
         num_columns = 3
 
     for i, checkbox_name in enumerate(checkbox_names):
