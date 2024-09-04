@@ -29,7 +29,7 @@ Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/icon.ico
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/install.bat
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.py
 Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/cleaning.py
-rem Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/tabs.py
+Utils\busybox wget https://github.com/scode18/All-Tweaker/raw/main/settings.ini
 
 Utils\\busybox wget https://github.com/scode18/All-Tweaker/raw/main/All.Tweaker.Start.bat
 cd Utils
