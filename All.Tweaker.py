@@ -7,11 +7,16 @@ import subprocess
 import getpass
 from datetime import datetime
 import datetime
+import configparser
 
 import sys
 sys.path.insert(0, './tweaks')
 
 from tabs import tabs
+
+# Создаем конфигурационный файл
+config = configparser.ConfigParser()
+config.read('settings.ini')
 
 class ToolTip:
     def __init__(self, widget, text):
@@ -95,17 +100,15 @@ def get_tab_name(checkbox_name):
 def restart():
     subprocess.run(['shutdown', '/r', '/t', '0'])
 
-# Кастомизация консоли
-subprocess.call("title All Tweaker Beta & mode con: cols=100 lines=25 & color a & echo Welcome to All Tweaker", shell=True)
-
 # Создаем основное окно
-root = ttk.Window(themename='vapor')
+root = ttk.Window(themename=config['General']['theme'])
 root.title('All Tweaker Beta')
-root.attributes('-fullscreen', True)
+root.attributes('-fullscreen', config.getboolean('Window', 'fullscreen'))
+subprocess.call(f"title All Tweaker Beta & mode con: cols={config['Window']['width']} lines={config['Window']['height']} & color a & echo Welcome to All Tweaker", shell=True)
 
 # Переменные для хранения текущего шрифта и темы
-current_font = ('Ubuntu Mono', 8)
-current_theme = 'Cyberpunk'
+current_font = (config['General']['font_family'], int(config['General']['font_size']))
+current_theme = config['General']['theme']
 
 # Функция для обновления стиля элементов с учетом выбранного шрифта
 def update_font_style():
@@ -124,6 +127,10 @@ def update_font(event=None):
     font_size = font_size_var.get()
     current_font = (font_family, font_size)
     update_font_style()
+    config['General']['font_family'] = font_family
+    config['General']['font_size'] = str(font_size)
+    with open('settings.ini', 'w') as configfile:
+        config.write(configfile)
 
 # Функция для обновления текущей темы
 def update_theme(event=None):
@@ -132,16 +139,27 @@ def update_theme(event=None):
     if new_theme != current_theme:
         root.style.theme_use(new_theme)
         current_theme = new_theme
+        config['General']['theme'] = new_theme
+        with open('settings.ini', 'w') as configfile:
+            config.write(configfile)
 
 # Создаем фрейм для размещения ползунка, выпадающих списков для шрифта и темы
 font_and_theme_controls_frame = ttk.Frame(root)
 font_and_theme_controls_frame.pack(side='bottom', anchor='se', padx=10, pady=(0, 10))
 
 # Выпадающий список для выбора функции кнопки "Выполнить"
-execute_function_var = tk.StringVar(value='Выполнить')
+execute_function_var = tk.StringVar(value=config['Execute']['execute_function'])
 execute_function_values = ['Создать конфиг', 'Выполнить']
 execute_function_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=execute_function_var, values=execute_function_values)
 execute_function_dropdown.pack(side='left', padx=(0, 5))
+
+# Функция для обновления значения execute_function
+def update_execute_function():
+    config['Execute']['execute_function'] = execute_function_var.get()
+    with open('settings.ini', 'w') as configfile:
+        config.write(configfile)
+
+execute_function_dropdown.bind('<<ComboboxSelected>>', update_execute_function)
 
 # Выпадающий список для выбора файла конфигурации
 config_file_var = tk.StringVar()
@@ -183,13 +201,14 @@ theme_var = tk.StringVar(value=current_theme)
 theme_values = root.style.theme_names()
 theme_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=theme_var, values=theme_values)
 theme_dropdown.pack(side='right', padx=(0, 5))
+theme_dropdown.bind("<<ComboboxSelected>>", update_theme)
 
 # Вызываем функцию для установки начального стиля
 update_font_style()
 
 # Создание кнопок
 execute_button = ttk.Button(root, text='Выполнить', command=execute)
-execute_button.pack(side='top', padx=10, pady=10, fill='x')
+execute_button.pack(side='top', padx=config.getint('Execute_Button', 'padx'), pady=config.getint('Execute_Button', 'pady'), fill=config['Execute_Button']['fill'])
 
 # Создание вкладок
 tab_control = ttk.Notebook(root)
@@ -205,9 +224,23 @@ if 'Приватность' in tabs:
     username = getpass.getuser()  # get the current username
     tab_control.add(tab_frame, text=f'Привет, {username}')
 
+# Создание поля для поиска
 search_entry_var = StringVar()
 search_entry = ttk.Entry(root, textvariable=search_entry_var)
-search_entry.pack(side='top', padx=10, pady=10, fill='x')
+search_entry.pack(side='top', padx=config.getint('Search_Entry', 'padx'), pady=config.getint('Search_Entry', 'pady'), fill=config['Search_Entry']['fill'])
+
+# Функция для обновления значения fullscreen
+def update_fullscreen():
+    config['Window']['fullscreen'] = str(root.attributes('-fullscreen'))
+    with open('settings.ini', 'w') as configfile:
+        config.write(configfile)
+
+# Функция для обновления значения width и height
+def update_window_size():
+    config['Window']['width'] = str(root.winfo_width())
+    config['Window']['height'] = str(root.winfo_height())
+    with open('settings.ini', 'w') as configfile:
+        config.write(configfile)
 
 def select_all_for_tabs(tab_frame):
     select_all_checkbox_var = tk.BooleanVar()
