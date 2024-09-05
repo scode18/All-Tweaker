@@ -123,10 +123,10 @@ def update_font_style():
 
 # Функция для обновления текущего шрифта
 def update_font(event=None):
-    global current_font
+    global checkbox_current_font
     font_family = font_family_var.get()
     font_size = font_size_var.get()
-    current_font = (font_family, font_size)
+    checkbox_current_font = (font_family, font_size)
     update_font_style()
     config['General']['font_family'] = font_family
     config['General']['font_size'] = str(font_size)
@@ -192,7 +192,7 @@ font_family_dropdown.pack(side='right', padx=(5, 0))
 font_family_dropdown.bind('<<ComboboxSelected>>', update_font)
 
 # Ползунок для выбора размера шрифта
-font_size_var = tk.IntVar(value=10)
+font_size_var = tk.IntVar(value=12)
 font_size_slider = ttk.Scale(font_and_theme_controls_frame, variable=font_size_var, from_=8, to=16, orient='horizontal')
 font_size_slider.pack(side='right', padx=(0, 5))
 font_size_slider.bind('<ButtonRelease-1>', update_font)
