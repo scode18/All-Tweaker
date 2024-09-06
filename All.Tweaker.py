@@ -59,10 +59,16 @@ def execute_old():
     for checkbox_name, checkbox_var in checkboxes.items():
         if checkbox_var.get():
             tab_name = get_tab_name(checkbox_name)  # get the tab name from the checkbox name
-            print(f'tweaks\\"{tab_name}\\{checkbox_name}"') 
-            subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
-            # usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)
-            # subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\{checkbox_name}.ps1'])
+            print(f'tweaks\\"{tab_name}\\{checkbox_name}"')
+            if checkbox_name.endswith(".bat"):
+                subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
+            elif checkbox_name.endswith(".ps1"):
+                print("usage of JetBrains WinElevator (https://github.com/JetBrains/intellij-community/tree/master/native/WinElevator)")
+                subprocess.run(['Utils\\launcher.exe', f'powershell.exe -ExecutionPolicy Bypass -File tweaks\\"{tab_name}\\{checkbox_name}"'])
+            elif checkbox_name.endswith(".reg"):
+                subprocess.call(f'Utils\\PowerRun.exe tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
+            else:
+                subprocess.call(f'tweaks\\"{tab_name}\\{checkbox_name}"', shell=True)
 
 def create_batch_file(activated_checkboxes):
     filename = f"Configs\\Config All Tweaker {datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.bat"
@@ -121,15 +127,16 @@ def update_font_style():
     style.configure('TTreeview', font=current_font)
     style.configure('TNotebook.Tab', font=current_font)
 
+
 # Функция для обновления текущего шрифта
 def update_font(event=None):
     global checkbox_current_font
     font_family = font_family_var.get()
-    font_size = font_size_var.get()
-    checkbox_current_font = (font_family, font_size)
+    checkbox_font_size = font_size_var.get()
+    checkbox_current_font = (font_family, checkbox_font_size)
     update_font_style()
     config['General']['font_family'] = font_family
-    config['General']['font_size'] = str(font_size)
+    config['General']['checkbox_font_size'] = str(checkbox_font_size)
     with open('settings.ini', 'w') as configfile:
         config.write(configfile)
 
@@ -140,6 +147,15 @@ def update_theme(event=None):
     if new_theme != current_theme:
         root.style.theme_use(new_theme)
         current_theme = new_theme
+
+        # Сохраняем текущий шрифт
+        font_family = config['General']['font_family']
+        checkbox_font_size = int(config['General']['checkbox_font_size'])
+        checkbox_current_font = (font_family, checkbox_font_size)
+
+        # Обновляем шрифт после смены темы
+        update_font_style()
+
         config['General']['theme'] = new_theme
         with open('settings.ini', 'w') as configfile:
             config.write(configfile)
@@ -149,14 +165,19 @@ font_and_theme_controls_frame = ttk.Frame(root)
 font_and_theme_controls_frame.pack(side='bottom', anchor='se', padx=10, pady=(0, 10))
 
 # Выпадающий список для выбора функции кнопки "Выполнить"
-execute_function_var = tk.StringVar(value='Выполнить')
+execute_function_var = tk.StringVar()
+if 'Execute' in config and 'execute_function' in config['Execute']:
+    execute_function_var.set(config['Execute']['execute_function'])
+else:
+    execute_function_var.set('Выполнить')
+
 execute_function_values = ['Создать конфиг', 'Выполнить']
 execute_function_dropdown = ttk.Combobox(font_and_theme_controls_frame, textvariable=execute_function_var, values=execute_function_values)
 execute_function_dropdown.pack(side='left', padx=(0, 5))
 
 # Функция для обновления значения execute_function
-def update_execute_function():
-    config['Execute']['execute_function'] = execute_function_var.get()
+def update_execute_function(event=None):
+    config.set('Execute', 'execute_function', execute_function_var.get())
     with open('settings.ini', 'w') as configfile:
         config.write(configfile)
 
@@ -168,6 +189,9 @@ config_file_values = [f for f in os.listdir('Configs') if f.endswith('.bat')]
 config_file_frame = ttk.Frame(font_and_theme_controls_frame)
 config_file_dropdown = ttk.Combobox(config_file_frame, textvariable=config_file_var, values=config_file_values)
 config_file_dropdown.pack(side='left', padx=(0, 5))
+
+# Увеличиваем ширину выпадающего списка в два раза
+config_file_dropdown.config(width=int(len(max(config_file_values, key=len))*float(config['General']['size_of_the_config_field'])))
 
 # Установка значения по умолчанию
 default_config = 'Конфиг оптимизации от разработчика.bat'
@@ -193,7 +217,7 @@ font_family_dropdown.bind('<<ComboboxSelected>>', update_font)
 
 # Ползунок для выбора размера шрифта
 font_size_var = tk.IntVar(value=12)
-font_size_slider = ttk.Scale(font_and_theme_controls_frame, variable=font_size_var, from_=8, to=16, orient='horizontal')
+font_size_slider = ttk.Scale(font_and_theme_controls_frame, variable=font_size_var, from_=8, to=12, orient='horizontal')
 font_size_slider.pack(side='right', padx=(0, 5))
 font_size_slider.bind('<ButtonRelease-1>', update_font)
 
